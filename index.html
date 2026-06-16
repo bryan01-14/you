@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nous Deux — 21 Juin 2023 ♡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- CURSEUR PERSONNALISÉ -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<div id="splashScreen" class="splash">
+  <div class="splash-bg"></div>
+  <div class="splash-petals" id="splashPetals"></div>
+  <div class="splash-inner">
+    <div class="splash-hearts">
+      <span class="sh sh1">♡</span>
+      <span class="sh sh2">♥</span>
+      <span class="sh sh3">♡</span>
+    </div>
+    <h1 class="splash-title">Nous Deux</h1>
+    <p class="splash-date">21 Juin 2023</p>
+    <p class="splash-sub">Une histoire vraie. Imparfaite. Inoubliable.</p>
+    <button class="splash-btn" id="splashBtn">
+      <span class="splash-btn-icon">▶</span>
+      <span class="splash-btn-text">Entrer dans notre histoire</span>
+    </button>
+    <p class="splash-hint">Appuie pour commencer ♡</p>
+  </div>
+</div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="Avant_toi.mp3" type="audio/mpeg">
+</audio>
+
+<!-- MUSIC PLAYER -->
+<div class="music-player" id="musicPlayer">
+  <div class="mp-vinyl" id="mpVinyl">🎵</div>
+  <div class="mp-info">
+    <div class="mp-title">Avant Toi</div>
+    <div class="mp-sub">Notre chanson ♡</div>
+  </div>
+  <button class="mp-btn" id="mpBtn">⏸</button>
+  <div class="mp-wave"><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+
+<!-- POPUP MOT CACHÉ -->
+<div class="secret-popup" id="secretPopup">
+  <div class="secret-popup-inner">
+    <button class="secret-popup-close" id="secretClose">✕</button>
+    <div class="secret-popup-icon">💌</div>
+    <div class="secret-popup-text" id="secretPopupText"></div>
+  </div>
+</div>
+
+<!-- FOND ANIMÉ -->
+<div id="floatingLayer" aria-hidden="true"></div>
+<div id="sparkLayer" aria-hidden="true"></div>
+<canvas id="bgCanvas"></canvas>
+
+<section class="hero">
+  <div class="hero-glows">
+    <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+  </div>
+  <div class="hero-petals" id="heroPetals"></div>
+
+  <!-- MOT CACHÉ #1 -->
+  <div class="secret-word" data-secret="Tu es la plus belle surprise que la vie m'ait offerte. ♡">✦</div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Une histoire vraie. Imparfaite. Inoubliable.</div>
+    <h1 class="hero-title">Nous Deux</h1>
+    <div class="hero-since">
+      <span class="hs-text">Depuis le <strong>21 Juin 2023</strong></span>
+    </div>
+    <div class="hero-counters">
+      <div class="hc-box"><div class="hc-num" id="hcDays">…</div><div class="hc-lbl">Jours</div></div>
+      <div class="hc-heart">♡</div>
+      <div class="hc-box"><div class="hc-num" id="hcMonths">…</div><div class="hc-lbl">Mois</div></div>
+      <div class="hc-heart">♡</div>
+      <div class="hc-box"><div class="hc-num">∞</div><div class="hc-lbl">Amour</div></div>
+    </div>
+    <a href="#lettre" class="hero-cta">
+      <span>Lire notre histoire</span><span class="cta-arrow">↓</span>
+    </a>
+  </div>
+  <div class="hero-polaroid-float">
+    <div class="hpf-inner"><img src="images/12.jpeg" alt="Nos mains" onerror="this.style.background='#fce4ec'"></div>
+    <div class="hpf-label">Nos mains ♡</div>
+  </div>
+</section>
+
+<section id="lettre" class="section lettre-section">
+  <div class="container">
+    <div class="section-tag reveal">✦ Lettre ouverte à mon cœur</div>
+    <h2 class="section-title reveal">Pour toi, pour nous</h2>
+
+    <!-- MOT CACHÉ #2 -->
+    <span class="secret-word" data-secret="L'amour n'est pas d'être parfait ensemble — c'est de refuser de se perdre même quand c'est difficile. ♡">💌</span>
+
+    <div class="lettre-card reveal">
+      <div class="lettre-deco-corner tl">❤</div><div class="lettre-deco-corner tr">❤</div>
+      <div class="lettre-deco-corner bl">❤</div><div class="lettre-deco-corner br">❤</div>
+      <div class="lettre-qmark">"</div>
+      <span class="secret-hint" title="Clique pour un message caché"><span class="secret-word secret-inline" data-secret="Mon amour… juste ces deux mots me font déjà sourire. ♡">💌</span></span>
+      <p class="lettre-p"><em>Mon amour,</em></p>
+
+      <p class="lettre-p">Je ne sais même pas par où commencer. Parce qu'avec toi, les mots ont souvent été insuffisants — trop petits pour contenir ce que je ressens. Mais aujourd'hui, j'essaie quand même.</p>
+
+      <p class="lettre-p">Ça va faire bientôt <strong>3 ans</strong>. Trois ans depuis ce <strong>21 juin 2023</strong> où quelque chose a basculé sans crier gare. Ce jour-là, je ne savais pas encore que tu allais devenir la personne la plus importante de ma vie. On ne sait jamais ces choses-là au moment où elles arrivent. On les comprend après, en regardant en arrière.</p>
+      <span class="secret-word secret-inline" data-secret="Le 21 juin 2023 — ce jour restera gravé en moi pour toujours. 🗓️">🌟</span>
+
+      <p class="lettre-p">Et quand je regarde en arrière… je ne vois pas une histoire facile. Je vois une histoire <em>vraie</em>. Une histoire qui a saigné. Qui s'est brisée par endroits. Qui a failli ne pas survivre à certaines nuits. Mais qui est encore là, debout, vivante — et c'est ça qui la rend extraordinaire.</p>
+
+      <p class="lettre-p">Il y a eu des disputes qui ont duré trop longtemps. Des mots qu'on a lancés sans vraiment les peser — et qui ont fait mal, très mal. Ces blessures-là ne s'effacent pas facilement. On les porte encore, quelque part. Mais on a appris à ne pas les laisser définir ce qu'on est l'un pour l'autre.</p>
+
+      <p class="lettre-p">Il y a eu des silences. Ces silences lourds, froids, qui duraient des heures — parfois des jours entiers. Pas des silences de paix. Des silences de souffrance habillée en distance. Je regardais mon téléphone. <em>Rien.</em> Et pourtant, même dans ce vide, tu occupais toute la place dans ma tête. Tout. La place.</p>
+
+      <blockquote class="lettre-bq">
+        Malgré tout ce qu'on a traversé — les disputes, les pleurs, les jours où on ne se parlait plus — il y a une chose que je n'ai jamais pu nier : <strong>je tiens à toi d'une façon qui me dépasse.</strong> Mes sentiments, eux, n'ont jamais bougé. Même quand tout le reste tremblait.
+      </blockquote>
+      <span class="secret-word secret-inline" data-secret="Ces mots, je les pense encore maintenant. Mes sentiments pour toi ne bougeront jamais. ♡">🔒</span>
+
+      <p class="lettre-p">On a voulu partir. Plusieurs fois. Ce mot — <em>rupture</em> — a traversé nos conversations comme une lame. On l'a dit, parfois. Ou on l'a pensé très fort sans oser le dire. Et pourtant… à chaque fois, quelque chose s'est mis en travers du chemin. Une force qu'on ne s'explique pas. Ou peut-être juste l'évidence silencieuse qu'on ne voulait pas vraiment se perdre.</p>
+
+      <p class="lettre-p">On est tombés. On s'est blessés. On a rechuté. Et on s'est relevés — ensemble, ou séparément, mais toujours en revenant l'un vers l'autre. <strong>Ce n'était pas de la faiblesse de rester. C'était du courage.</strong> Le genre de courage dont on ne parle pas, mais qui est le plus difficile à avoir.</p>
+
+      <p class="lettre-p">Tu es devenu·e une présence ancrée dans ma façon de vivre. J'aime comment tu penses. Comment tu ris. Comment tu me regardes parfois sans dire un mot et je comprends quand même tout. J'aime ces petits moments qu'on ne photographie jamais — mais qu'on n'oublie pas non plus.</p>
+
+      <p class="lettre-p">Je ne suis pas parfait. Tu ne l'es pas non plus. On s'est trompés, on s'est manqués, on s'est ratés parfois. Mais une chose reste gravée quelque part que rien ne peut effacer : <strong>ce que je ressens pour toi est d'une sincérité absolue.</strong> Ça, c'est réel.</p>
+
+      <p class="lettre-p">On avance. Pas à pas. Pas toujours droit. Mais on avance <em>ensemble</em>. Et cet amour qu'on construit — imparfait, vivant, cabossé, réel — <strong>vaut toutes les tempêtes du monde.</strong></p>
+
+      <span class="secret-word secret-inline" data-secret="Chaque mot ici a été écrit les yeux plein de toi. Je t'aime d'une façon que les mots ne suffisent pas à mesurer. ♡">✍️</span>
+      <div class="lettre-sig">— Avec tout ce que j'ai &nbsp;♡</div>
+    </div>
+    <!-- PROVERBE SECTION LETTRE -->
+    <div class="proverbe-band reveal">
+      <span class="proverbe-icon">🕊️</span>
+      <em>« Aimer, c'est trouver sa propre richesse dans la personne qu'on aime. »</em>
+      <span class="proverbe-src">— Jacques Maritain</span>
+    </div>
+  </div>
+</section>
+
+<section class="section timeline-section">
+  <div class="container">
+    <div class="section-tag reveal">✦ Notre chemin</div>
+    <h2 class="section-title reveal">Les hauts & les tempêtes</h2>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot">💫</div>
+        <div class="tl-card">
+          <span class="tl-date">Juin 2023</span><h3>Le début de tout</h3>
+          <p>Une rencontre qui semblait ordinaire, mais qui allait tout redéfinir.</p>
+          <!-- MOT CACHÉ #3 -->
+          <span class="secret-word small" data-secret="Ce jour-là, sans le savoir, tu es devenue la plus belle partie de ma vie. ✨">✦</span>
+        </div>
+      </div>
+      <div class="tl-item right reveal">
+        <div class="tl-dot">🌊</div>
+        <div class="tl-card">
+          <span class="tl-date">Premiers mois</span><h3>La découverte</h3>
+          <p>Les rires, les longues conversations, les regards qui disaient tout sans un mot.</p>
+          <span class="secret-word small" data-secret="On découvrait l'autre comme on ouvre un livre précieux — avec douceur et curiosité. 📖">✦</span>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot">⚡</div>
+        <div class="tl-card">
+          <span class="tl-date">Les tempêtes</span><h3>On a failli tout perdre</h3>
+          <p>Des conflits, des silences lourds, des douleurs qu'on ne s'attendait pas à traverser.</p>
+          <span class="secret-word small" data-secret="Les plus belles histoires ne sont pas celles sans tempêtes — ce sont celles qui survivent à toutes. ⚡">✦</span>
+        </div>
+      </div>
+      <div class="tl-item right reveal">
+        <div class="tl-dot">🔥</div>
+        <div class="tl-card">
+          <span class="tl-date">La résistance</span><h3>On a tenu bon</h3>
+          <p>À chaque fois qu'on voulait partir, quelque chose nous retenait. Une force invisible.</p>
+          <span class="secret-word small" data-secret="Rester quand tout pousse à partir — c'est l'acte d'amour le plus courageux qui soit. 🔥">✦</span>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot">✨</div>
+        <div class="tl-card">
+          <span class="tl-date">Bientôt 3 ans</span><h3>On avance ensemble</h3>
+          <p>Malgré tout, on est toujours là. Notre histoire continue, plus forte qu'avant.</p>
+          <span class="secret-word small" data-secret="3 ans de vraie vie ensemble. Pas parfaite. Mais réelle. Et c'est infiniment plus beau. ♾️">✦</span>
+        </div>
+      </div>
+    </div>
+    <!-- PROVERBE TIMELINE -->
+    <div class="proverbe-band reveal">
+      <span class="proverbe-icon">✨</span>
+      <em>« L'amour véritable ne se nourrit pas de perfection, mais de persévérance. »</em>
+      <span class="proverbe-src">— Proverbe français</span>
+    </div>
+  </div>
+</section>
+
+<section class="section gallery-section">
+  <div class="container">
+    <div class="section-tag reveal">✦ Nos souvenirs gravés</div>
+    <h2 class="section-title reveal">Nos Souvenirs Gravés</h2>
+    <p class="section-sub reveal">Chaque regard, chaque sourire, une page de notre histoire…</p>
+    <!-- MOT CACHÉ #4 -->
+    <span class="secret-word" data-secret="Ces photos ne capturent pas juste des moments — elles capturent des preuves que tu existes dans ma vie. 🌸">🌸</span>
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+    <!-- PROVERBE GALERIE -->
+    <div class="proverbe-band reveal">
+      <span class="proverbe-icon">📸</span>
+      <em>« Un cœur qui aime est toujours jeune. »</em>
+      <span class="proverbe-src">— Proverbe grec</span>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕</button>
+  <button class="lb-prev" id="lbPrev">‹</button>
+  <div class="lb-polaroid">
+    <img class="lb-img" id="lbImg" src="" alt="Souvenir"/>
+    <div class="lb-caption" id="lbCaption"></div>
+  </div>
+  <button class="lb-next" id="lbNext">›</button>
+</div>
+
+<section class="section video-section">
+  <div class="container">
+    <div class="section-tag reveal">✦ Vivants & précieux</div>
+    <h2 class="section-title reveal">Nos Moments en Vidéo</h2>
+    <!-- MOT CACHÉ #5 -->
+    <span class="secret-word" data-secret="Dans chaque vidéo, je vois une preuve que ce qu'on vit est réel, vivant, et précieux. 🎬">🎥</span>
+    <div class="video-grid" id="videoGrid"></div>
+
+    <!-- PROVERBE VIDÉOS -->
+    <div class="proverbe-band reveal">
+      <span class="proverbe-icon">🎬</span>
+      <em>« Là où il y a amour, il y a vie. »</em>
+      <span class="proverbe-src">— Gandhi</span>
+    </div>
+  </div>
+</section>
+
+<section class="section quotes-section">
+  <div class="container">
+    <div class="section-tag reveal">✦ Pour ne jamais oublier</div>
+    <h2 class="section-title reveal">Ce que l'Amour nous apprend</h2>
+    <div class="quotes-carousel-wrap">
+      <div class="quotes-carousel" id="quotesCarousel"></div>
+      <div class="quotes-dots" id="quotesDots"></div>
+    </div>
+    <div class="secrets-row">
+      <span class="secret-word" data-secret="Chacune de ces citations, je l'ai choisie en pensant à toi. À nous. ♡">✦</span>
+      <span class="secret-word" data-secret="L'amour que je te porte, aucune citation ne peut vraiment le contenir. 💫">✦</span>
+      <span class="secret-word" data-secret="Si tu lis ces mots, sache que tu es ma citation préférée. 📖">✦</span>
+    </div>
+  </div>
+</section>
+
+<section class="section stats-section">
+  <div class="container">
+    <div class="section-tag reveal">✦ En chiffres</div>
+    <h2 class="section-title reveal">Notre histoire en chiffres</h2>
+    <!-- MOT CACHÉ #6 -->
+    <span class="secret-word" data-secret="Chaque jour comptabilisé est un jour de plus où j'ai choisi de te garder dans ma vie. 📅">💫</span>
+    <div class="stats-grid">
+      <div class="stat-card reveal" style="position:relative"><div class="stat-icon">📅</div><div class="stat-num" id="sDays">0</div><div class="stat-lbl">Jours ensemble</div><span class="secret-word stat-secret" data-secret="Chacun de ces jours, je l'ai vécu en sachant que tu en faisais partie. 📅">✦</span></div>
+      <div class="stat-card reveal" style="position:relative"><div class="stat-icon">🌙</div><div class="stat-num" id="sMonths">0</div><div class="stat-lbl">Mois de complicité</div><span class="secret-word stat-secret" data-secret="Des mois entiers à apprendre qui tu es. Je ne suis pas encore lassé. 🌙">✦</span></div>
+      <div class="stat-card reveal" style="position:relative"><div class="stat-icon">💭</div><div class="stat-num">∞</div><div class="stat-lbl">Pensées pour toi</div><span class="secret-word stat-secret" data-secret="Dans ma tête, tu es présente même quand tu es loin. Surtout quand tu es loin. 💭">✦</span></div>
+      <div class="stat-card reveal" style="position:relative"><div class="stat-icon">❤️</div><div class="stat-num">1</div><div class="stat-lbl">Cœur qui te choisit</div><span class="secret-word stat-secret" data-secret="Un seul cœur. Et il t'a choisie toi. Il recommencerait mille fois. ❤️">✦</span></div>
+    </div>
+
+    <!-- PROVERBE STATS -->
+    <div class="proverbe-band reveal">
+      <span class="proverbe-icon">💎</span>
+      <em>« Le temps n'épargne pas ce qu'on a fait sans lui. »</em>
+      <span class="proverbe-src">— Paul Valéry</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION ANNIVERSAIRE -->
+<section class="section bday-section">
+  <div class="container">
+    <div class="section-tag reveal">✦ Un jour spécial</div>
+    <h2 class="section-title reveal">Joyeux Anniversaire Abraham ♡</h2>
+    <p class="section-sub reveal">Ce jour était pour moi. Un moment inoubliable.</p>
+    <!-- MOT CACHÉ ANNIVERSAIRE -->
+    <span class="secret-word" data-secret="Ce gâteau, ces bougies, ce sourire — tout ça c'était pour te dire : j'ai vraiment aimé ce jour ♡">🎂</span>
+    <div class="bday-grid reveal">
+      <div class="bday-polaroid">
+        <div class="bday-img-wrap"><img src="images/photo29.jpg" alt="HBD Abraham" onerror="this.closest('.bday-polaroid').style.display='none'"></div>
+        <div class="bday-caption">HBD Abraham ♡</div>
+        <span class="secret-word stat-secret" data-secret="Ce jour était pour toi. Juste pour toi. 🎂">✦</span>
+      </div>
+      <div class="bday-polaroid">
+        <div class="bday-img-wrap"><img src="images/photo30.jpg" alt="Le gâteau" onerror="this.closest('.bday-polaroid').style.display='none'"></div>
+        <div class="bday-caption">Un gâteau rien que pour toi ♡</div>
+        <span class="secret-word stat-secret" data-secret="Préparé avec amour, pour quelqu'un qui mérite tout l'amour du monde. 🍰">✦</span>
+      </div>
+      <div class="bday-polaroid">
+        <div class="bday-img-wrap"><img src="images/photo28.jpg" alt="Gâteau chocolat" onerror="this.closest('.bday-polaroid').style.display='none'"></div>
+        <div class="bday-caption">Fait avec amour ♡</div>
+        <span class="secret-word stat-secret" data-secret="Chaque détail de ce jour a été pensé pour te rendre heureux·se. Tu mérites ça et tellement plus. 🌹">✦</span>
+      </div>
+    </div>
+    <div class="bday-message reveal">
+      <div class="bday-msg-icon">🎉</div>
+      <p>Ce jour-là, tout était réuni — toi, moi, ce gâteau préparé avec soin, ces petits instants qui valent plus que tout. On a partagé  des rires, des regards. C'était simple. C'était nous. Et c'était parfait.</p>
+    </div>
+    <!-- PROVERBE ANNIVERSAIRE -->
+    <div class="proverbe-band reveal">
+      <span class="proverbe-icon">🎈</span>
+      <em>« Vieillir ensemble, c'est le plus beau des cadeaux. »</em>
+      <span class="proverbe-src">— Sagesse du cœur</span>
+    </div>
+  </div>
+</section>
+
+<section class="section final-section">
+  <div class="container">
+    <div class="final-card reveal">
+      <div class="final-hearts-rain" id="finalRain"></div>
+      <!-- MOT CACHÉ #7 -->
+      <span class="secret-word" data-secret="Si tu lis ceci, sache que chaque mot de ce site a été écrit avec le cœur. Je t'aime. ♡">✨</span>
+      <div class="section-tag" style="color:#c0392b">✦ Pour toujours</div>
+      <h2 class="final-title">Et si c'était ça, l'amour ?</h2>
+      <p class="final-text">Pas toujours parfait. Pas toujours facile. Mais <em>réel</em>.</p>
+      <span class="secret-word secret-inline" data-secret="Réel. Ce mot résume tout ce qu'on a construit. Et ça, personne ne peut nous l'enlever. 💎">💎</span>
+      <p class="final-text">Une relation qui résiste au temps, aux disputes, aux doutes — c'est une relation qui <strong>vaut la peine d'être vécue.</strong></p>
+      <span class="secret-word secret-inline" data-secret="Je ne cherche pas la perfection. Je te cherche toi. Et tu es exactement là où il faut. 🌙">🌙</span>
+      <p class="final-text">On a traversé des tempêtes et on est encore là. C'est notre force. C'est notre histoire. Et cette histoire, <strong>je l'écris avec toi.</strong></p>
+      <div class="final-quote">"L'amour vrai ne fuit pas les obstacles, il les traverse."</div>
+      <!-- PROVERBE FINAL -->
+      <div class="proverbe-band" style="margin-top:2rem;background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3)">
+        <span class="proverbe-icon">🌹</span>
+        <em style="color:#fff">« On reconnaît l'arbre à ses fruits, et l'amour à ses actes. »</em>
+        <span class="proverbe-src" style="color:rgba(255,255,255,0.7)">— Sagesse populaire</span>
+      </div>
+      <div class="final-emoji">♡ &nbsp; ♡ &nbsp; ♡</div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <!-- MOT CACHÉ #8 -->
+  <span class="secret-word" data-secret="Merci d'exister. Merci d'être toi. Merci de rester. ♡">♡</span>
+  <span class="secret-word" data-secret="Ce site a été fait ligne par ligne, mot par mot, en pensant à toi. Je t'aime. 💻♡">🖤</span>
+  <p>Créé avec amour 💕 &nbsp;·&nbsp; 21 Juin 2023 — pour toujours</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
