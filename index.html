@@ -75,10 +75,10 @@
   <div class="secret-word" data-secret="Tu es la plus belle surprise que la vie m'ait offerte. ♡">✦</div>
 
   <div class="hero-content">
-    <div class="hero-eyebrow">Une histoire vraie. Imparfaite. Inoubliable.</div>
-    <h1 class="hero-title">Nous Deux</h1>
+    <div class="hero-eyebrow" id="heroEyebrow">Une histoire vraie. Imparfaite. Inoubliable.</div>
+    <h1 class="hero-title" id="heroTitleText">Nous Deux</h1>
     <div class="hero-since">
-      <span class="hs-text">Depuis le <strong>21 Juin 2023</strong></span>
+      <span class="hs-text" id="heroSinceText">Depuis le <strong>21 Juin 2023</strong></span>
     </div>
     <div class="hero-counters">
       <div class="hc-box"><div class="hc-num" id="hcDays">…</div><div class="hc-lbl">Jours</div></div>
@@ -97,7 +97,136 @@
   </div>
 </section>
 
-<section id="lettre" class="section lettre-section">
+<!-- ═══════════════════════════════════════
+     MODE FÊTE — page complètement différente,
+     visible UNIQUEMENT le 21 juin
+     ═══════════════════════════════════════ -->
+<section id="anniversaryDay" class="section anniv-section" style="display:none">
+  <div class="anniv-confetti" id="annivConfetti"></div>
+  <div class="container">
+
+    <div class="anniv-badge reveal">🎉 21 Juin — Joyeux Anniversaire 🎉</div>
+
+    <!-- CITATION D'OUVERTURE -->
+    <div class="anniv-opening-quote reveal">
+      <p>« Il n'y a qu'un bonheur dans la vie, c'est d'aimer et d'être aimé. »</p>
+      <span>— George Sand</span>
+    </div>
+
+    <h2 class="anniv-title reveal">3 ans, nous deux</h2>
+    <p class="anniv-sub reveal">Aujourd'hui, on ne regarde pas en arrière. On célèbre.</p>
+
+    <!-- POÈME SIMPLE -->
+    <div class="anniv-poem-card reveal">
+      <div class="anniv-poem-deco">♡</div>
+      <p class="anniv-poem-line">Trois ans avec toi.</p>
+      <p class="anniv-poem-line">Trois ans de hauts, de bas, et de retours.</p>
+      <p class="anniv-poem-line">Trois ans à choisir de rester.</p>
+      <p class="anniv-poem-line">&nbsp;</p>
+      <p class="anniv-poem-line">Pas besoin de grands mots.</p>
+      <p class="anniv-poem-line">Juste la vérité : <strong>tu comptes pour moi.</strong></p>
+      <p class="anniv-poem-line">Aujourd'hui, plus que jamais.</p>
+      <p class="anniv-poem-line">&nbsp;</p>
+      <p class="anniv-poem-line"><strong>Joyeux anniversaire à nous deux.</strong> ♡</p>
+      <div class="anniv-poem-sig">— Pour notre 3ème année</div>
+    </div>
+
+    <!-- GALERIE MOSAÏQUE SPÉCIALE FÊTE -->
+    <div class="anniv-mosaic-label reveal">✦ Nos plus beaux instants ✦</div>
+
+    <!-- Sélecteur de disposition -->
+    <div class="layout-switcher reveal">
+      <button class="layout-btn active" data-layout="mosaic">🧩 Mosaïque</button>
+      <button class="layout-btn" data-layout="grid">▦ Grille</button>
+      <button class="layout-btn" data-layout="circle">⭕ Cercle</button>
+      <button class="layout-btn" data-layout="stack">🃏 Pile</button>
+      <button class="layout-btn" data-layout="film">🎞️ Pellicule</button>
+    </div>
+
+    <div class="anniv-mosaic reveal" id="annivMosaic" data-current-layout="mosaic"></div>
+
+    <!-- BOUTON PAILLETTES -->
+    <div class="glitter-trigger-wrap reveal">
+      <button class="glitter-btn" id="glitterBtn">
+        <span class="glitter-btn-icon">✨</span>
+        <span>Fais pleuvoir des paillettes !</span>
+        <span class="glitter-btn-icon">✨</span>
+      </button>
+    </div>
+    <div id="glitterCanvas"></div>
+
+    <!-- CARROUSEL VIDÉO PLEIN FORMAT -->
+    <div class="anniv-video-label reveal">✦ En mouvement ✦</div>
+    <div class="anniv-video-carousel reveal" id="annivVideoCarousel">
+      <button class="avc-arrow avc-prev" id="avcPrev">‹</button>
+      <div class="avc-stage" id="avcStage"></div>
+      <button class="avc-arrow avc-next" id="avcNext">›</button>
+      <div class="avc-dots" id="avcDots"></div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="anniv-toast reveal">
+      <span class="anniv-toast-icon">🥂</span>
+      <p>Aujourd'hui, on ne parle pas de nos disputes.<br>
+      On célèbre juste qu'on est <strong>encore là, ensemble</strong>.</p>
+    </div>
+
+    <!-- LE CONSEIL FINAL -->
+    <div class="anniv-advice reveal">
+      <div class="anniv-advice-icon">💡</div>
+      <h3>Un conseil pour l'année qui vient</h3>
+      <p>Ne cherchez pas une relation parfaite. Cherchez quelqu'un qui reste, même dans l'imperfection. <strong>Vous, vous restez.</strong> Continuez juste comme ça : avec sincérité, avec patience, et avec ce petit pas en avant chaque jour, même les jours difficiles.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     BANDEAU PROVERBES DÉFILANT
+     ═══════════════════════════════════ -->
+<div class="proverbe-ticker" id="provTicker">
+  <div class="proverbe-ticker-inner" id="provTickerInner">
+    <!-- Généré par JS -->
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     CITATION DU JOUR — SECTION DÉDIÉE
+     ═══════════════════════════════════ -->
+<section class="citation-jour-section hide-on-party">
+  <div class="cj-wrap reveal">
+    <div class="cj-tag">✦ Sagesse du jour ✦</div>
+    <h2 class="section-title" style="margin-bottom:32px">Ce que l'amour nous enseigne</h2>
+    <div class="cj-card">
+      <p class="cj-text" id="cjText"></p>
+      <div class="cj-author" id="cjAuthor"></div>
+      <div class="cj-progress"><div class="cj-progress-bar" id="cjBar"></div></div>
+    </div>
+    <div class="cj-controls">
+      <button class="cj-btn" id="cjPrev">‹</button>
+      <div class="cj-dots" id="cjDots"></div>
+      <button class="cj-btn" id="cjNext">›</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     MINI MOMENTS — FRISE ANIMÉE
+     ═══════════════════════════════════ -->
+<section class="mini-moments-section hide-on-party">
+  <div class="container">
+    <div class="section-tag reveal" style="text-align:center">✦ Ces petits riens qui font tout</div>
+    <h2 class="section-title reveal" style="text-align:center">Les instants précieux</h2>
+  </div>
+  <div class="mm-track-wrap" style="margin-top:32px">
+    <div class="mm-track" id="mmTrack1"></div>
+  </div>
+  <div class="mm-track-wrap" style="margin-top:12px">
+    <div class="mm-track mm-track-2" id="mmTrack2"></div>
+  </div>
+</section>
+
+<section id="lettre" class="section lettre-section hide-on-party">
   <div class="container">
     <div class="section-tag reveal">✦ Lettre ouverte à mon cœur</div>
     <h2 class="section-title reveal">Pour toi, pour nous</h2>
@@ -151,7 +280,7 @@
   </div>
 </section>
 
-<section class="section timeline-section">
+<section class="section timeline-section hide-on-party">
   <div class="container">
     <div class="section-tag reveal">✦ Notre chemin</div>
     <h2 class="section-title reveal">Les hauts & les tempêtes</h2>
@@ -207,7 +336,7 @@
   </div>
 </section>
 
-<section class="section gallery-section">
+<section class="section gallery-section hide-on-party">
   <div class="container">
     <div class="section-tag reveal">✦ Nos souvenirs gravés</div>
     <h2 class="section-title reveal">Nos Souvenirs Gravés</h2>
@@ -236,7 +365,7 @@
   <button class="lb-next" id="lbNext">›</button>
 </div>
 
-<section class="section video-section">
+<section class="section video-section hide-on-party">
   <div class="container">
     <div class="section-tag reveal">✦ Vivants & précieux</div>
     <h2 class="section-title reveal">Nos Moments en Vidéo</h2>
@@ -269,6 +398,41 @@
   </div>
 </section>
 
+<!-- ═══════════════════════════════════
+     PROVERBES DU MONDE
+     ═══════════════════════════════════ -->
+<section class="proverbes-monde-section hide-on-party">
+  <div class="container">
+    <div class="section-tag reveal" style="text-align:center">✦ Sagesse universelle</div>
+    <h2 class="section-title reveal" style="text-align:center">L'amour à travers le monde</h2>
+    <p class="section-sub reveal" style="text-align:center">Ce que les peuples du monde entier ont compris sur l'amour véritable…</p>
+    <div class="pm-grid" id="pmGrid"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     LOVE METER INTERACTIF
+     ═══════════════════════════════════ -->
+<section class="love-meter-section hide-on-party">
+  <div class="container">
+    <div class="section-tag reveal" style="text-align:center">✦ À toi de jouer</div>
+    <h2 class="section-title reveal" style="text-align:center">Envoie-lui de l'amour</h2>
+    <p class="section-sub reveal" style="text-align:center">Clique sur le cœur pour lui envoyer de l'amour ♡</p>
+    <div class="lm-wrap reveal">
+      <button class="lm-heart-btn" id="lmHeart" title="Clique pour envoyer de l'amour !">❤️</button>
+      <div class="lm-count" id="lmCount">0</div>
+      <div class="lm-label">battements envoyés</div>
+      <div class="lm-bar-wrap"><div class="lm-bar" id="lmBar" style="width:0%"></div></div>
+      <div class="lm-message" id="lmMsg">Clique pour commencer ♡</div>
+      <div class="lm-emojis" id="lmEmojis"></div>
+      <div class="lm-proverbe" id="lmProverbe">
+        <span id="lmProvText">« L'amour commence par soi-même. »</span>
+        <span class="lm-proverbe-src" id="lmProvSrc">— Sagesse</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section stats-section">
   <div class="container">
     <div class="section-tag reveal">✦ En chiffres</div>
@@ -294,37 +458,63 @@
 <!-- SECTION ANNIVERSAIRE -->
 <section class="section bday-section">
   <div class="container">
-    <div class="section-tag reveal">✦ Un jour spécial</div>
-    <h2 class="section-title reveal">Joyeux Anniversaire Abraham ♡</h2>
-    <p class="section-sub reveal">Ce jour était pour moi. Un moment inoubliable.</p>
-    <!-- MOT CACHÉ ANNIVERSAIRE -->
-    <span class="secret-word" data-secret="Ce gâteau, ces bougies, ce sourire — tout ça c'était pour te dire : j'ai vraiment aimé ce jour ♡">🎂</span>
+    <div class="section-tag reveal">✦ Petits bonheurs du quotidien</div>
+    <h2 class="section-title reveal">Ces instants qu'on n'oublie pas</h2>
+    <p class="section-sub reveal">Pas besoin d'occasion spéciale. Juste nous, et un moment volé au temps.</p>
+    <!-- MOT CACHÉ -->
+    <span class="secret-word" data-secret="Ce ne sont pas les grands événements qui font une histoire d'amour. C'est l'accumulation de tous ces petits riens. ♡">🍰</span>
     <div class="bday-grid reveal">
       <div class="bday-polaroid">
-        <div class="bday-img-wrap"><img src="images/photo29.jpg" alt="HBD Abraham" onerror="this.closest('.bday-polaroid').style.display='none'"></div>
-        <div class="bday-caption">HBD Abraham ♡</div>
-        <span class="secret-word stat-secret" data-secret="Ce jour était pour toi. Juste pour toi. 🎂">✦</span>
+        <div class="bday-img-wrap"><img src="images/photo29.jpg" alt="Souvenir partagé" onerror="this.closest('.bday-polaroid').style.display='none'"></div>
+        <div class="bday-caption">Un sourire volé ♡</div>
+        <span class="secret-word stat-secret" data-secret="Ce sourire-là, je le garde précieusement dans ma mémoire. 🌸">✦</span>
       </div>
       <div class="bday-polaroid">
-        <div class="bday-img-wrap"><img src="images/photo30.jpg" alt="Le gâteau" onerror="this.closest('.bday-polaroid').style.display='none'"></div>
-        <div class="bday-caption">Un souvenir dont je ne peux oubler ♡</div>
-        <span class="secret-word stat-secret" data-secret="Préparé avec amour, pour quelqu'un qui mérite tout l'amour du monde. 🍰">✦</span>
+        <div class="bday-img-wrap"><img src="images/photo30.jpg" alt="Moment partagé" onerror="this.closest('.bday-polaroid').style.display='none'"></div>
+        <div class="bday-caption">Un instant à savourer ♡</div>
+        <span class="secret-word stat-secret" data-secret="On n'a pas besoin de grand chose pour être heureux. Juste de se retrouver. 🍰">✦</span>
       </div>
       <div class="bday-polaroid">
-        <div class="bday-img-wrap"><img src="images/photo28.jpg" alt="Gâteau chocolat" onerror="this.closest('.bday-polaroid').style.display='none'"></div>
-        <div class="bday-caption">Fait avec amour ♡</div>
-        <span class="secret-word stat-secret" data-secret="Chaque détail de ce jour a été pensé pour te rendre heureux·se. Tu mérites ça et tellement plus. 🌹">✦</span>
+        <div class="bday-img-wrap"><img src="images/photo28.jpg" alt="Moment doux" onerror="this.closest('.bday-polaroid').style.display='none'"></div>
+        <div class="bday-caption">Tout simplement, nous ♡</div>
+        <span class="secret-word stat-secret" data-secret="Ces moments simples sont souvent les plus précieux de tous. 🌹">✦</span>
       </div>
     </div>
     <div class="bday-message reveal">
-      <div class="bday-msg-icon">🎉</div>
-      <p>Ce jour-là, tout était réuni — toi, moi, ce gâteau préparé avec soin, ces petits instants qui valent plus que tout. On a partagé  des rires, des regards. C'était simple. C'était nous. Et c'était parfait.</p>
+      <div class="bday-msg-icon">✨</div>
+      <p>Ce jour-là, rien d'extraordinaire au programme. Juste toi, moi, et ce temps qu'on a pris pour être ensemble. C'était simple. C'était nous. Et c'était amplement suffisant.</p>
     </div>
-    <!-- PROVERBE ANNIVERSAIRE -->
+    <!-- PROVERBE -->
     <div class="proverbe-band reveal">
-      <span class="proverbe-icon">🎈</span>
-      <em>« Vieillir ensemble, c'est le plus beau des cadeaux. »</em>
-      <span class="proverbe-src">— Sagesse du cœur</span>
+      <span class="proverbe-icon">🌷</span>
+      <em>« Le bonheur, ce n'est pas une destination. C'est une façon de voyager. »</em>
+      <span class="proverbe-src">— Margaret Lee Runbeck</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     CARTE D'ENGAGEMENT
+     ═══════════════════════════════════ -->
+<section class="engagement-section">
+  <div class="container">
+    <div class="section-tag reveal" style="text-align:center">✦ Nos promesses</div>
+    <h2 class="section-title reveal" style="text-align:center">Ce qu'on se promet</h2>
+    <div class="eng-card reveal">
+      <span class="eng-icon">💍</span>
+      <div class="eng-title">Nous deux</div>
+      <p class="eng-text">Pas de grands serments. Juste de petites promesses quotidiennes — celles qu'on tient vraiment.</p>
+      <div class="eng-promesse">
+        <div class="eng-item"><span class="ei-icon">🤝</span><span>Rester honnêtes, même quand c'est difficile</span></div>
+        <div class="eng-item"><span class="ei-icon">🌊</span><span>Traverser les tempêtes sans se lâcher la main</span></div>
+        <div class="eng-item"><span class="ei-icon">😂</span><span>Ne jamais oublier de rire ensemble</span></div>
+        <div class="eng-item"><span class="ei-icon">🌱</span><span>Grandir l'un avec l'autre, pas l'un sans l'autre</span></div>
+        <div class="eng-item"><span class="ei-icon">❤️</span><span>Se choisir à nouveau chaque matin</span></div>
+      </div>
+      <div class="eng-proverbe" id="engProvCard">
+        « Aimer quelqu'un, c'est lui dire : tu ne mourras pas. »
+        <span class="eng-proverbe-src">— Gabriel Marcel</span>
+      </div>
     </div>
   </div>
 </section>

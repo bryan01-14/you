@@ -167,7 +167,7 @@ function initSite() {
     {src:'images/photo26.jpg', label:'Elle, face au monde',     icon:'🖤'},
     {src:'images/photo27.jpg', label:'Son sourire, mon tout',   icon:'💖'},
     {src:'images/photo28.jpg', label:'Notre gâteau d\'amour',   icon:'🎂'},
-    {src:'images/photo29.jpg', label:'HBD Abraham ♡',          icon:'🎉'},
+    {src:'images/photo29.jpg', label:'Un sourire complice',    icon:'🎉'},
     {src:'images/photo30.jpg', label:'Le jour de tes vœux',    icon:'🕯️'},
     {src:'images/photo31.jpg', label:'Nos instants ensemble',  icon:'🍿'},
   ];
@@ -457,9 +457,522 @@ function initSite() {
     }
   }
 
+  /* --- VÉRIFICATION JOUR-J : 21 JUIN --- */
+  checkAnniversaryDay();
+
 } /* fin initSite */
 
+/* ════════════════════════════════════════════
+   MODE FÊTE — activé automatiquement le 21 juin
+   ════════════════════════════════════════════ */
+function checkAnniversaryDay() {
+  const now = new Date();
+  const isAnniversary = (now.getMonth() === 5 && now.getDate() === 21); // juin = mois 5 (0-indexé)
+
+  if (!isAnniversary) return;
+
+  /* 0. Activer le mode fête sur tout le body — cache les sections "hide-on-party" */
+  document.body.classList.add('party-day');
+
+  /* 1. Afficher la section anniversaire */
+  const annivSection = document.getElementById('anniversaryDay');
+  if (annivSection) annivSection.style.display = 'block';
+
+  /* 2. Changer le contenu du hero pour le mode fête */
+  const heroEyebrow = document.getElementById('heroEyebrow');
+  const heroTitle   = document.getElementById('heroTitleText');
+  const heroSince   = document.getElementById('heroSinceText');
+  const heroSection = document.querySelector('.hero');
+  const heroCta     = document.querySelector('.hero-cta');
+
+  if (heroSection) heroSection.classList.add('party-mode');
+  if (heroEyebrow) heroEyebrow.textContent = '🎉 C\'est aujourd\'hui ! Joyeux anniversaire à nous 🎉';
+  if (heroTitle)   heroTitle.textContent   = 'Joyeux 3 Ans !';
+  if (heroSince)   heroSince.innerHTML     = 'Le <strong>21 Juin 2026</strong> — notre 3ème anniversaire ♡';
+  if (heroCta) { heroCta.setAttribute('href', '#anniversaryDay'); heroCta.querySelector('span').textContent = 'Voir la surprise'; }
+
+  /* 3. Lancer les confettis en continu toute la journée */
+  startConfetti();
+
+  /* 4. Mettre à jour le titre de l'onglet navigateur */
+  document.title = '🎉 Joyeux Anniversaire — Nous Deux ♡';
+
+  /* 5. Notification discrète en haut de page */
+  showAnniversaryBanner();
+
+  /* 6. Construire la mosaïque photo (ordre et tailles différents de la galerie normale) */
+  buildAnnivMosaic();
+
+  /* 6b. Activer le bouton paillettes */
+  initGlitterButton();
+
+  /* 7. Construire le carrousel vidéo plein format */
+  buildAnnivVideoCarousel();
+}
+
+/* --- MOSAÏQUE PHOTO SPÉCIALE FÊTE (avec dispositions multiples) --- */
+function buildAnnivMosaic() {
+  const mosaic = document.getElementById('annivMosaic');
+  if (!mosaic) return;
+
+  mosaic.classList.add('layout-mosaic');
+
+  // Sélection volontairement différente : ordre mélangé, certaines en grand format
+  const picks = [
+    { n: 9,  size: 'big'  },
+    { n: 30, size: ''     },
+    { n: 5,  size: 'wide' },
+    { n: 14, size: ''     },
+    { n: 22, size: 'tall' },
+    { n: 2,  size: ''     },
+    { n: 18, size: ''     },
+    { n: 31, size: 'wide' },
+    { n: 11, size: ''     },
+    { n: 26, size: 'big'  },
+    { n: 7,  size: ''     },
+    { n: 19, size: ''     },
+    { n: 3,  size: 'tall' },
+    { n: 24, size: ''     },
+    { n: 15, size: ''     },
+    { n: 8,  size: 'wide' },
+  ];
+
+  picks.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'anniv-mosaic-item ' + p.size;
+    div.style.zIndex = picks.length - i;
+    div.innerHTML = `<img src="images/photo${p.n}.jpg" alt="Souvenir ${p.n}" loading="lazy" onerror="this.closest('.anniv-mosaic-item').style.display='none'">`;
+    mosaic.appendChild(div);
+  });
+
+  positionLayout(mosaic, 'mosaic');
+
+  /* --- Boutons de sélection de disposition --- */
+  document.querySelectorAll('.layout-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const layout = btn.dataset.layout;
+      switchMosaicLayout(mosaic, layout);
+    });
+  });
+}
+
+function switchMosaicLayout(mosaic, layout) {
+  // Retirer toutes les classes layout-*
+  mosaic.className = mosaic.className.replace(/layout-\w+/g, '').trim();
+  mosaic.classList.add('anniv-mosaic', 'reveal', 'visible', 'layout-' + layout);
+  mosaic.dataset.currentLayout = layout;
+  positionLayout(mosaic, layout);
+
+  // Recalcule la disposition "circle" si la fenêtre change de taille
+  if (layout === 'circle' && !mosaic._resizeBound) {
+    mosaic._resizeBound = true;
+    window.addEventListener('resize', () => {
+      if (mosaic.dataset.currentLayout === 'circle') positionLayout(mosaic, 'circle');
+    });
+  }
+}
+
+function positionLayout(mosaic, layout) {
+  const items = mosaic.querySelectorAll('.anniv-mosaic-item');
+  if (layout === 'circle') {
+    const radius = window.innerWidth < 700 ? 150 : 220;
+    items.forEach((item, i) => {
+      const angle = (i / items.length) * 2 * Math.PI;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+      item.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  } else if (layout === 'stack') {
+    items.forEach((item, i) => {
+      const offset = i * 3;
+      const rot = (i % 2 === 0 ? 1 : -1) * (3 + i * 0.6);
+      item.style.left = `calc(50% - 110px + ${offset}px)`;
+      item.style.transform = `rotate(${rot}deg)`;
+      item.style.zIndex = items.length - i;
+    });
+  } else {
+    // mosaic / grid / film : reset transform
+    items.forEach(item => { item.style.transform = ''; item.style.left = ''; });
+  }
+}
+
+/* --- BOUTON PAILLETTES INTERACTIF --- */
+function initGlitterButton() {
+  const btn = document.getElementById('glitterBtn');
+  const canvas = document.getElementById('glitterCanvas');
+  if (!btn || !canvas) return;
+
+  const glitterColors = ['#ffd700', '#ffb6c1', '#e8507a', '#ff8fa3', '#fff', '#c0392b', '#ffeb3b'];
+  const glitterShapes = ['✦', '✧', '★', '♡', '●'];
+
+  btn.addEventListener('click', () => {
+    // Petite explosion immédiate au niveau du bouton
+    const rect = btn.getBoundingClientRect();
+    const originX = rect.left + rect.width / 2;
+
+    for (let i = 0; i < 80; i++) {
+      setTimeout(() => spawnGlitter(originX), i * 8);
+    }
+
+    btn.classList.add('clicked');
+    setTimeout(() => btn.classList.remove('clicked'), 400);
+  });
+
+  function spawnGlitter(originX) {
+    const g = document.createElement('span');
+    const isEmoji = Math.random() > 0.5;
+    g.className = 'glitter-piece';
+    g.style.left = (originX + (Math.random() - 0.5) * 300) + 'px';
+    g.style.fontSize = (10 + Math.random() * 14) + 'px';
+    g.style.animationDuration = (2.5 + Math.random() * 3) + 's';
+
+    if (isEmoji) {
+      g.textContent = glitterShapes[Math.floor(Math.random() * glitterShapes.length)];
+      g.style.color = glitterColors[Math.floor(Math.random() * glitterColors.length)];
+    } else {
+      const size = 4 + Math.random() * 5;
+      g.style.width = size + 'px';
+      g.style.height = size + 'px';
+      g.style.background = glitterColors[Math.floor(Math.random() * glitterColors.length)];
+      g.style.borderRadius = '50%';
+      g.style.display = 'block';
+    }
+
+    canvas.appendChild(g);
+    setTimeout(() => g.remove(), 6000);
+  }
+}
+
+/* --- CARROUSEL VIDÉO PLEIN FORMAT --- */
+function buildAnnivVideoCarousel() {
+  const stage = document.getElementById('avcStage');
+  const dots  = document.getElementById('avcDots');
+  if (!stage) return;
+
+  // Sélection différente de la grille vidéo normale
+  const picks = [3, 11, 19, 7, 25, 14, 2, 30];
+  let current = 0;
+
+  picks.forEach((n, i) => {
+    const v = document.createElement('video');
+    v.src = `videos/video${n}.mp4`;
+    v.controls = true;
+    v.playsInline = true;
+    v.preload = 'metadata';
+    v.className = i === 0 ? 'active' : '';
+    v.onerror = function() { this.style.display = 'none'; };
+    stage.appendChild(v);
+
+    const d = document.createElement('button');
+    d.className = 'avc-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goToVideo(i));
+    dots.appendChild(d);
+  });
+
+  function goToVideo(idx) {
+    const vids = stage.querySelectorAll('video');
+    const dd   = dots.querySelectorAll('.avc-dot');
+    vids[current].classList.remove('active');
+    vids[current].pause();
+    dd[current].classList.remove('active');
+    current = idx;
+    vids[current].classList.add('active');
+    dd[current].classList.add('active');
+  }
+
+  document.getElementById('avcPrev').addEventListener('click', () => {
+    goToVideo((current - 1 + picks.length) % picks.length);
+  });
+  document.getElementById('avcNext').addEventListener('click', () => {
+    goToVideo((current + 1) % picks.length);
+  });
+}
+
+function startConfetti() {
+  const container = document.getElementById('annivConfetti');
+  if (!container) return;
+  const colors = ['#e8507a', '#ffd700', '#ff8fa3', '#ffb6c1', '#fff0d9', '#c0392b'];
+  const shapes = ['50%', '2px']; // rond ou carré
+
+  function spawnConfetti() {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    const size = 6 + Math.random() * 8;
+    c.style.left = Math.random() * 100 + '%';
+    c.style.width = size + 'px';
+    c.style.height = size + 'px';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)];
+    c.style.animationDuration = (4 + Math.random() * 5) + 's';
+    container.appendChild(c);
+    setTimeout(() => c.remove(), 9500);
+  }
+
+  // Génère des confettis en continu pendant que la section est visible
+  setInterval(spawnConfetti, 250);
+  for (let i = 0; i < 30; i++) setTimeout(spawnConfetti, i * 80);
+}
+
+function showAnniversaryBanner() {
+  const banner = document.createElement('div');
+  banner.style.cssText = `
+    position:fixed;top:0;left:0;right:0;z-index:9000;
+    background:linear-gradient(135deg,#e8507a,#ffd700);
+    color:#fff;text-align:center;padding:10px 16px;
+    font-family:'Lato',sans-serif;font-weight:700;font-size:13px;
+    letter-spacing:.5px;box-shadow:0 4px 20px rgba(0,0,0,.15);
+    animation:slideDownBanner .5s ease both;
+  `;
+  banner.innerHTML = '🎉 Aujourd\'hui c\'est notre anniversaire ! Découvre la surprise plus bas ↓ 🎉';
+  document.body.prepend(banner);
+
+  const style = document.createElement('style');
+  style.textContent = `@keyframes slideDownBanner{from{transform:translateY(-100%)}to{transform:translateY(0)}}`;
+  document.head.appendChild(style);
+
+
+  setTimeout(() => { banner.style.opacity = '0'; banner.style.transition='opacity .6s'; setTimeout(()=>banner.remove(),600); }, 8000);
+}
+
+/* ════════════════════════════════════════════
+   INNOVATIONS V2
+   ════════════════════════════════════════════ */
+
+/* ── Données : proverbes & citations ── */
+const ALL_PROVERBES = [
+  { text: "L'amour n'est pas de regarder l'un l'autre, c'est de regarder ensemble dans la même direction.", src: "Antoine de Saint-Exupéry", icon: "🌹" },
+  { text: "Là où il y a amour, il y a vie.", src: "Gandhi", icon: "🕊️" },
+  { text: "Aimer, c'est trouver sa propre richesse dans la personne qu'on aime.", src: "Jacques Maritain", icon: "💎" },
+  { text: "Un cœur qui aime est toujours jeune.", src: "Proverbe grec", icon: "🫀" },
+  { text: "Le bonheur, c'est aimer et être aimé.", src: "George Sand", icon: "✨" },
+  { text: "L'amour vrai ne fuit pas les obstacles, il les traverse.", src: "Proverbe français", icon: "🌊" },
+  { text: "Deux âmes qui s'aiment sont capables de traverser n'importe quelle nuit.", src: "Inspiration", icon: "🌙" },
+  { text: "Aimer, c'est choisir l'autre chaque jour, même quand c'est difficile.", src: "Sagesse moderne", icon: "🔄" },
+  { text: "On reconnaît l'arbre à ses fruits, et l'amour à ses actes.", src: "Sagesse populaire", icon: "🌳" },
+  { text: "L'amour véritable ne se nourrit pas de perfection, mais de persévérance.", src: "Proverbe français", icon: "🌱" },
+  { text: "Le temps n'épargne pas ce qu'on a fait sans lui.", src: "Paul Valéry", icon: "⏳" },
+  { text: "Aimer quelqu'un, c'est lui dire : tu ne mourras pas.", src: "Gabriel Marcel", icon: "💫" },
+  { text: "Ce qui se fait avec amour se fait toujours bien.", src: "Van Gogh", icon: "🎨" },
+  { text: "Le vrai amour commence quand on n'attend rien en retour.", src: "Antoine de Saint-Exupéry", icon: "🎁" },
+  { text: "Rester quand tout pousse à partir — c'est l'acte d'amour le plus courageux.", src: "Notre histoire", icon: "💪" },
+  { text: "L'amour ne cherche pas sa propre gloire.", src: "1 Corinthiens 13", icon: "🙏" },
+];
+
+const PROVERBES_MONDE = [
+  { flag: "🇯🇵", origin: "Proverbe japonais", text: "L'amour et les nuages n'ont jamais de forme fixe.", meaning: "L'amour est toujours en mouvement, changeant et vivant — il ne se laisse jamais enfermer." },
+  { flag: "🇧🇷", origin: "Proverbe brésilien", text: "Amor com amor se paga — l'amour se paye avec de l'amour.", meaning: "La seule monnaie valide entre deux êtres qui s'aiment, c'est l'amour lui-même." },
+  { flag: "🇦🇫", origin: "Proverbe afghan", text: "Si tu ne peux pas être le soleil, sois au moins la lune.", meaning: "Chacun apporte sa lumière à sa façon. L'amour, c'est aussi savoir éclairer dans l'ombre." },
+  { flag: "🇹🇷", origin: "Proverbe turc", text: "L'amour ne dure pas parce qu'il commence avec un sourire, mais parce qu'il résiste aux larmes.", meaning: "La vraie force d'un amour se mesure dans les moments difficiles, pas dans les beaux jours." },
+  { flag: "🇨🇳", origin: "Proverbe chinois", text: "Aimer profondément quelqu'un donne force ; être profondément aimé de quelqu'un donne courage.", meaning: "Chaque direction de l'amour apporte un don différent — l'un fortifie, l'autre libère." },
+  { flag: "🌍", origin: "Proverbe africain", text: "Si tu veux aller vite, marche seul. Si tu veux aller loin, marche ensemble.", meaning: "Deux personnes unies par l'amour vont infiniment plus loin que l'un ou l'autre seul." },
+];
+
+const MINI_MOMENTS_DATA = [
+  { emoji: "☕", text: "Le café qu'on prépare pour l'autre sans demander" },
+  { emoji: "📱", text: "Le message du matin qui réchauffe toute la journée" },
+  { emoji: "😴", text: "S'endormir en se tenant la main" },
+  { emoji: "🎵", text: "Quand une chanson nous ramène à un souvenir" },
+  { emoji: "🍽️", text: "Partager le même plat en sachant lequel l'autre préfère" },
+  { emoji: "😂", text: "Ces fous rires qu'on ne sait plus expliquer" },
+  { emoji: "🚗", text: "Les trajets où le silence est confortable" },
+  { emoji: "👀", text: "Ce regard qui veut dire « je suis là »" },
+  { emoji: "🌧️", text: "Rester dedans quand il pleut dehors" },
+  { emoji: "🤝", text: "Se tenir la main dans la rue, comme ça, naturellement" },
+  { emoji: "🌅", text: "Regarder le coucher de soleil sans rien dire" },
+  { emoji: "📸", text: "Prendre des photos sans que l'autre sache" },
+  { emoji: "🍫", text: "Se souvenir de ce que l'autre aime sans avoir à demander" },
+  { emoji: "🌺", text: "Un geste doux qui dit « je t'aime » sans un mot" },
+  { emoji: "⭐", text: "Compter les étoiles ensemble en faisant des projets" },
+  { emoji: "🫂", text: "Ces câlins qui durent un peu trop longtemps — et c'est bien" },
+];
+
+const LOVE_METER_MSGS = [
+  { min: 0,   max: 5,   msg: "Clique pour commencer ♡",               emojis: "" },
+  { min: 5,   max: 20,  msg: "Ton amour commence à vibrer…",          emojis: "♡" },
+  { min: 20,  max: 50,  msg: "Ça chauffe ! Elle reçoit tout ça ♡",   emojis: "♡ ♥" },
+  { min: 50,  max: 100, msg: "Wow, tant d'amour ! 🌸",                emojis: "♡ ♥ 💕" },
+  { min: 100, max: 200, msg: "Incroyable… ton cœur est immense !",    emojis: "♡ ♥ 💕 🌸" },
+  { min: 200, max: 500, msg: "Tu l'aimes à l'infini c'est clair 💫",  emojis: "♡ ♥ 💕 🌸 ✨" },
+  { min: 500, max: Infinity, msg: "Aucune mesure ne peut contenir cet amour ♾️", emojis: "♡ ♥ 💕 🌸 ✨ 💖" },
+];
+
+const LOVE_METER_PROVERBES = [
+  { text: "L'amour ne connaît pas de mesure.", src: "Saint Bernard" },
+  { text: "Aimer, c'est ne pas compter.", src: "Jean Cocteau" },
+  { text: "Le cœur a ses raisons que la raison ne connaît point.", src: "Pascal" },
+  { text: "On ne voit bien qu'avec le cœur.", src: "Saint-Exupéry" },
+  { text: "Là où il y a amour, il y a vie.", src: "Gandhi" },
+  { text: "Aimer, c'est choisir l'autre encore et encore.", src: "Sagesse moderne" },
+];
+
+/* ── BANDEAU TICKER ── */
+function initProvTicker() {
+  const inner = document.getElementById('provTickerInner');
+  if (!inner) return;
+  // Dupliquer pour boucle infinie
+  const items = [...ALL_PROVERBES, ...ALL_PROVERBES];
+  items.forEach((p, i) => {
+    const span = document.createElement('span');
+    span.className = 'proverbe-ticker-item';
+    span.innerHTML = `<span class="ti-icon">${p.icon}</span><em>${p.text}</em><span class="ti-src">— ${p.src}</span>`;
+    inner.appendChild(span);
+    if (i < items.length - 1) {
+      const sep = document.createElement('span');
+      sep.className = 'proverbe-ticker-sep';
+      sep.textContent = '✦';
+      inner.appendChild(sep);
+    }
+  });
+}
+
+/* ── CITATION DU JOUR ── */
+function initCitationJour() {
+  const cjText   = document.getElementById('cjText');
+  const cjAuthor = document.getElementById('cjAuthor');
+  const cjDots   = document.getElementById('cjDots');
+  const cjBar    = document.getElementById('cjBar');
+  if (!cjText) return;
+
+  const data = ALL_PROVERBES;
+  let cur = 0, timer, barTimer;
+
+  data.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'cj-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goCJ(i));
+    cjDots && cjDots.appendChild(d);
+  });
+
+  function goCJ(n) {
+    cjText.classList.add('fading');
+    cjAuthor.classList.add('fading');
+    clearTimeout(timer); clearTimeout(barTimer);
+    cjBar.classList.remove('animating'); cjBar.style.width = '0';
+
+    setTimeout(() => {
+      cur = n;
+      cjText.textContent = `« ${data[cur].text} »`;
+      cjAuthor.textContent = `— ${data[cur].src}`;
+      cjText.classList.remove('fading');
+      cjAuthor.classList.remove('fading');
+      document.querySelectorAll('.cj-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+      // Relancer barre
+      requestAnimationFrame(() => {
+        cjBar.classList.add('animating');
+      });
+      timer = setTimeout(() => goCJ((cur + 1) % data.length), 6200);
+    }, 300);
+  }
+
+  document.getElementById('cjPrev') && (document.getElementById('cjPrev').onclick = () => goCJ((cur - 1 + data.length) % data.length));
+  document.getElementById('cjNext') && (document.getElementById('cjNext').onclick = () => goCJ((cur + 1) % data.length));
+
+  goCJ(0);
+}
+
+/* ── MINI MOMENTS FRISE ── */
+function initMiniMoments() {
+  const t1 = document.getElementById('mmTrack1');
+  const t2 = document.getElementById('mmTrack2');
+  if (!t1 || !t2) return;
+
+  function buildTrack(el, items) {
+    // Dupliquer pour loop
+    [...items, ...items].forEach(m => {
+      const d = document.createElement('div');
+      d.className = 'mm-item';
+      d.innerHTML = `<span class="mm-emoji">${m.emoji}</span><p class="mm-text">${m.text}</p>`;
+      el.appendChild(d);
+    });
+  }
+
+  buildTrack(t1, MINI_MOMENTS_DATA.slice(0, 8));
+  buildTrack(t2, MINI_MOMENTS_DATA.slice(8));
+}
+
+/* ── PROVERBES DU MONDE ── */
+function initProverbesMonde() {
+  const grid = document.getElementById('pmGrid');
+  if (!grid) return;
+  PROVERBES_MONDE.forEach(p => {
+    const c = document.createElement('div');
+    c.className = 'pm-card reveal';
+    c.innerHTML = `
+      <span class="pm-flag">${p.flag}</span>
+      <span class="pm-origin">${p.origin}</span>
+      <p class="pm-text">« ${p.text} »</p>
+      <p class="pm-meaning">${p.meaning}</p>`;
+    grid.appendChild(c);
+  });
+}
+
+/* ── LOVE METER ── */
+function initLoveMeter() {
+  const btn  = document.getElementById('lmHeart');
+  const cnt  = document.getElementById('lmCount');
+  const bar  = document.getElementById('lmBar');
+  const msg  = document.getElementById('lmMsg');
+  const emj  = document.getElementById('lmEmojis');
+  const pt   = document.getElementById('lmProvText');
+  const ps   = document.getElementById('lmProvSrc');
+  if (!btn) return;
+
+  let count = 0, pIdx = 0;
+
+  function spawnParticle() {
+    const p = document.createElement('span');
+    p.textContent = ['♡','♥','💕','✨','🌸'][Math.floor(Math.random()*5)];
+    const rect = btn.getBoundingClientRect();
+    p.style.cssText = `
+      position:fixed;left:${rect.left + rect.width/2}px;top:${rect.top}px;
+      font-size:${16+Math.random()*12}px;pointer-events:none;z-index:9999;
+      animation:clickPop .9s ease forwards;
+      --tx:${(Math.random()-.5)*80}px;--ty:${-50-Math.random()*60}px;
+    `;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 900);
+  }
+
+  btn.addEventListener('click', () => {
+    count++;
+    cnt.textContent = count.toLocaleString('fr-FR');
+    btn.classList.add('burst');
+    setTimeout(() => btn.classList.remove('burst'), 400);
+
+    // Barre de progression (max 500)
+    const pct = Math.min((count / 500) * 100, 100);
+    bar.style.width = pct + '%';
+
+    // Message et emojis
+    const stage = LOVE_METER_MSGS.find(s => count >= s.min && count < s.max) || LOVE_METER_MSGS[LOVE_METER_MSGS.length-1];
+    msg.textContent = stage.msg;
+    emj.textContent = stage.emojis;
+
+    // Proverbe tous les 20 clics
+    if (count % 20 === 0) {
+      pIdx = (pIdx + 1) % LOVE_METER_PROVERBES.length;
+      pt.textContent = `« ${LOVE_METER_PROVERBES[pIdx].text} »`;
+      ps.textContent = `— ${LOVE_METER_PROVERBES[pIdx].src}`;
+    }
+
+    // Particules
+    for (let i = 0; i < 3; i++) setTimeout(spawnParticle, i * 60);
+  });
+}
+
+/* ── LANCEMENT ── */
+(function initV2() {
+  initProvTicker();
+  initCitationJour();
+  initMiniMoments();
+  initProverbesMonde();
+  initLoveMeter();
+})();
+
 /* Helper: anime un nombre */
+
 function animNum(el, target, dur) {
   if (!el) return;
   let s = null;
