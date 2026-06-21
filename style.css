@@ -43,7 +43,7 @@ body{font-family:var(--ff-body);background:var(--white);color:var(--text-dark);o
 .intro-tagline{font-size:13px;color:var(--text-light);letter-spacing:2px}
 
 /* ── MUSIC PLAYER ── */
-.music-player{position:fixed;bottom:24px;right:24px;z-index:500;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:1.5px solid var(--rose-blush);border-radius:60px;padding:10px 18px 10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px var(--shadow);min-width:200px}
+.music-player{position:fixed;bottom:max(24px, env(safe-area-inset-bottom, 12px));right:24px;z-index:500;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:1.5px solid var(--rose-blush);border-radius:60px;padding:10px 18px 10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px var(--shadow);min-width:200px}
 .mp-vinyl{font-size:26px;line-height:1;display:block}
 .mp-vinyl.spinning{animation:spin 3s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -62,7 +62,7 @@ body{font-family:var(--ff-body);background:var(--white);color:var(--text-dark);o
 @keyframes wave{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
 
 /* ── HERO ── */
-.hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 100px;overflow:hidden;background:linear-gradient(160deg,#fff0f3 0%,#ffe4ee 40%,#ffd6e7 70%,#ffcce3 100%)}
+.hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px calc(100px + env(safe-area-inset-bottom, 0px));overflow:hidden;background:linear-gradient(160deg,#fff0f3 0%,#ffe4ee 40%,#ffd6e7 70%,#ffcce3 100%)}
 .hero-glows{position:absolute;inset:0;pointer-events:none}
 .glow{position:absolute;border-radius:50%;filter:blur(80px);animation:glowPulse 6s ease-in-out infinite alternate}
 .g1{width:500px;height:500px;top:-100px;left:-100px;background:rgba(232,80,122,.18);animation-delay:0s}
@@ -274,7 +274,7 @@ body{font-family:var(--ff-body);background:var(--white);color:var(--text-dark);o
 /* ══════════════════════════════════════════════
    MODE CINÉMA (21 juin) — rideaux fermés sur tout l'écran
    ══════════════════════════════════════════════ */
-#cinemaSplash { background: #080002; }
+#cinemaSplash { background: #080002; position: absolute; inset: 0; min-height: 100%; }
 
 /* ── Rideaux : 50% chacun, fermés = couvrent tout ── */
 .cinema-curtain-left,
@@ -1770,180 +1770,174 @@ body.party-day .hide-on-party{
   .afw-inner { padding: 36px 24px; }
 }
 
-/* ══════════════════════════════════════════════
-   RIDEAU CINÉMA — VERSION FINALE RESPONSIVE
-   ══════════════════════════════════════════════ */
+/* ══════════════════════════════════════
+   MOBILE — SECTION ANNIVERSAIRE COMPLÈTE
+   Optimisé pour 320px → 480px → 600px
+   ══════════════════════════════════════ */
 
-/* Rideaux : bandes sur les côtés, centre toujours lisible */
-.cinema-curtain-left,
-.cinema-curtain-right {
-  position: absolute; top: 0; bottom: 0;
-  width: clamp(60px, 18vw, 220px);
-  z-index: 3; overflow: hidden;
-  transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1);
-}
-.cinema-curtain-left  { left: 0; }
-.cinema-curtain-right { right: 0; }
-
-.cinema-curtain-left .curtain-body,
-.cinema-curtain-right .curtain-body {
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg,
-    #5C0A12 0%, #8B1A1A 12%, #7A0F17 28%,
-    #9B2020 44%, #7A0F17 58%, #8B1A1A 72%,
-    #6B0F1A 86%, #4A0A10 100%);
-}
-.cinema-curtain-left .curtain-body::before,
-.cinema-curtain-right .curtain-body::before {
-  content: ''; position: absolute; inset: 0;
-  background: repeating-linear-gradient(90deg,
-    transparent 0px, rgba(0,0,0,.22) 5px,
-    transparent 10px, rgba(255,255,255,.05) 15px,
-    transparent 20px, rgba(0,0,0,.15) 25px, transparent 30px);
-}
-.cinema-curtain-left .curtain-body::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(90deg, rgba(255,255,255,.1) 0%, transparent 60%, rgba(0,0,0,.3) 100%);
-}
-.cinema-curtain-right .curtain-body::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(-90deg, rgba(255,255,255,.1) 0%, transparent 60%, rgba(0,0,0,.3) 100%);
-}
-
-.curtain-fringe {
-  position: absolute; bottom: 0; left: 0; right: 0; height: clamp(14px, 3vh, 30px); z-index: 4;
-  background: repeating-linear-gradient(90deg, #c9a84c 0px, #e8c96a 3px, #a07830 6px, #c9a84c 9px);
-}
-.curtain-fringe::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, #7a5c1e, #f0d060, #7a5c1e);
-}
-
-/* Rail doré en haut */
-.cinema-rail {
-  position: absolute; top: 0; left: 0; right: 0; height: clamp(18px, 3vh, 26px);
-  background: linear-gradient(180deg, #111, #2a2a2a); z-index: 10;
-}
-.cinema-rail::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 5px;
-  background: linear-gradient(90deg, #5a3c0e, #e8c96a 20%, #f0d060 50%, #c9a84c 80%, #5a3c0e);
-  box-shadow: 0 3px 12px rgba(200,160,60,.6);
-}
-.rail-rings {
-  position: absolute; bottom: -7px; left: 0; right: 0;
-  display: flex; justify-content: space-around; padding: 0 4px;
-}
-.rail-ring {
-  width: clamp(8px, 1.4vw, 13px); height: clamp(8px, 1.4vw, 13px);
-  border-radius: 50%; flex-shrink: 0;
-  background: radial-gradient(circle at 35% 30%, #f0d060, #9a6c20);
-  box-shadow: 0 2px 5px rgba(0,0,0,.6);
-}
-
-/* Zone centrale — toujours visible entre les deux rideaux */
-.cinema-center {
-  position: relative; z-index: 6;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center;
-  width: 100%; padding: clamp(30px, 5vh, 60px) clamp(20px, 22vw, 260px);
-  gap: clamp(8px, 1.8vh, 18px);
-  box-sizing: border-box;
-}
-
-.cinema-logo {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(40px, 8vw, 90px);
-  color: #e8c96a; line-height: 1.1;
-  text-shadow: 0 0 40px rgba(232,201,106,.8), 0 4px 24px rgba(0,0,0,.95);
-  animation: cinemaTitleGlow 2.5s ease-in-out infinite alternate;
-  opacity: 0; transform: scale(.85);
-  transition: opacity .9s ease, transform .9s ease;
-}
-.cinema-logo.visible { opacity: 1; transform: scale(1); }
-@keyframes cinemaTitleGlow {
-  from { text-shadow: 0 0 20px rgba(232,201,106,.3), 0 4px 24px rgba(0,0,0,.95); }
-  to   { text-shadow: 0 0 70px rgba(232,201,106,1),  0 4px 30px rgba(0,0,0,.95); }
-}
-
-.cinema-divider {
-  width: clamp(50px, 10vw, 140px); height: 1px;
-  background: linear-gradient(90deg, transparent, #e8c96a, transparent);
-  opacity: 0; transition: opacity .6s ease;
-}
-.cinema-divider.visible { opacity: 1; }
-
-.cinema-date {
-  font-family: 'Lato', sans-serif; font-weight: 300;
-  font-size: clamp(9px, 1.4vw, 13px); letter-spacing: clamp(2px, .8vw, 5px);
-  text-transform: uppercase; color: rgba(232,201,106,.78);
-  opacity: 0; transition: opacity .6s ease;
-}
-.cinema-date.visible { opacity: 1; }
-
-.cinema-tagline {
-  font-family: 'Playfair Display', serif; font-style: italic;
-  font-size: clamp(13px, 2vw, 19px); color: rgba(255,255,255,.84);
-  line-height: 1.7; max-width: min(460px, 56vw);
-  opacity: 0; transition: opacity .6s ease;
-}
-.cinema-tagline.visible { opacity: 1; }
-
-.cinema-stars {
-  color: #e8c96a; font-size: clamp(13px, 2vw, 20px);
-  letter-spacing: clamp(4px, 1vw, 10px);
-  opacity: 0; transition: opacity .6s ease;
-  animation: cinemaStarPulse 2s ease-in-out infinite;
-}
-.cinema-stars.visible { opacity: 1; }
-@keyframes cinemaStarPulse { 0%,100%{opacity:.75} 50%{opacity:1} }
-
-.cinema-btn {
-  background: linear-gradient(135deg, #b8922a, #e8c96a, #a07830);
-  color: #1a0800; font-weight: 800;
-  font-size: clamp(10px, 1.6vw, 14px); letter-spacing: clamp(1px, .5vw, 2.5px);
-  border: none; border-radius: 50px; text-transform: uppercase; cursor: pointer;
-  padding: clamp(11px, 2vh, 17px) clamp(20px, 4vw, 46px);
-  box-shadow: 0 8px 32px rgba(200,160,60,.5);
-  opacity: 0; transform: translateY(14px);
-  transition: opacity .6s ease, transform .6s ease, box-shadow .2s, filter .2s;
-  animation: btnGoldPulse 2.2s ease-in-out infinite;
-}
-.cinema-btn.visible { opacity: 1; transform: translateY(0); }
-.cinema-btn:hover   { box-shadow: 0 14px 44px rgba(200,160,60,.9); filter: brightness(1.12); }
-@keyframes btnGoldPulse { 0%,100%{box-shadow:0 8px 32px rgba(200,160,60,.5)} 50%{box-shadow:0 14px 50px rgba(200,160,60,.9)} }
-
-.cinema-hint {
-  font-size: clamp(8px, 1vw, 11px); letter-spacing: 2px;
-  color: rgba(255,255,255,.3); text-transform: uppercase; font-family: 'Lato', sans-serif;
-  opacity: 0; transition: opacity .6s ease;
-  animation: hintBlink 2.5s ease-in-out infinite;
-}
-.cinema-hint.visible { opacity: 1; }
-@keyframes hintBlink { 0%,100%{opacity:.2} 50%{opacity:.55} }
-
-/* Spots lumineux */
-.cinema-spotlight {
-  position: absolute; top: 0; pointer-events: none; z-index: 1; opacity: .12;
-  background: conic-gradient(from 180deg at 50% 0%, transparent 78deg, rgba(255,240,180,.95) 90deg, transparent 102deg);
-  transform-origin: top center;
-}
-.cinema-spotlight.sp1 { left: 20%; width: clamp(80px,16vw,240px); height: 85vh; animation: spotSway1 7s ease-in-out infinite; }
-.cinema-spotlight.sp2 { right: 20%; width: clamp(70px,14vw,200px); height: 80vh; animation: spotSway2 9s ease-in-out infinite; }
-@keyframes spotSway1 { 0%,100%{transform:rotate(-7deg)} 50%{transform:rotate(5deg)} }
-@keyframes spotSway2 { 0%,100%{transform:rotate(5deg)} 50%{transform:rotate(-7deg)} }
-
-.cinema-grain {
-  position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: .035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-}
-
-/* Ouverture */
-.splash.opening .cinema-curtain-left  { transform: translateX(-100%); }
-.splash.opening .cinema-curtain-right { transform: translateX(100%); }
-
-/* Mobile */
+/* --- Badge en haut --- */
 @media(max-width:600px){
-  .cinema-curtain-left,.cinema-curtain-right { width: clamp(40px,10vw,80px); }
-  .cinema-center { padding: 24px clamp(50px,12vw,90px); }
-  .cinema-tagline { max-width: 78vw; }
+  .anniv-section { padding-top: 50px; }
+  .anniv-badge {
+    font-size: 13px;
+    padding: 10px 18px;
+    margin-bottom: 14px;
+    max-width: 90%;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
+  }
 }
+@media(max-width:400px){
+  .anniv-badge { font-size: 11px; padding: 8px 14px; }
+}
+
+/* --- Bloc "3 ANS" + depuis --- */
+@media(max-width:600px){
+  .anniv-3ans-hero {
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .a3h-number {
+    padding: 16px 28px;
+    border-radius: 18px;
+  }
+  .a3h-digit { font-size: clamp(60px,18vw,90px); }
+  .a3h-label { font-size: 11px; letter-spacing: 4px; }
+  .a3h-divider { display: none; }
+  .a3h-since { font-size: 15px; }
+}
+@media(max-width:380px){
+  .a3h-digit { font-size: 58px; }
+  .a3h-number { padding: 12px 22px; }
+}
+
+/* --- Titre & sous-titre anniv --- */
+@media(max-width:600px){
+  .anniv-title { font-size: clamp(34px,9vw,52px); margin-bottom: 10px; }
+  .anniv-sub { font-size: 13.5px; margin-bottom: 28px; }
+}
+
+/* --- Statistiques (4 cartes) --- */
+@media(max-width:768px){
+  .anniv-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    max-width: 100%;
+    margin-bottom: 30px;
+  }
+  .as-card { padding: 18px 12px; border-radius: 16px; }
+  .as-num { font-size: clamp(22px,6vw,32px); }
+  .as-label { font-size: 9px; letter-spacing: 1px; }
+  .as-icon { font-size: 18px; margin-top: 6px; }
+}
+@media(max-width:400px){
+  .as-card { padding: 14px 8px; }
+  .as-num { font-size: 22px; }
+  .as-label { font-size: 8px; }
+}
+
+/* --- Hero en mode fête --- */
+@media(max-width:600px){
+  .hero.party-mode {
+    padding: 50px 14px 60px;
+    min-height: 100svh;
+  }
+}
+
+/* --- Poème --- */
+@media(max-width:480px){
+  .anniv-poem-card { padding: 28px 16px; border-radius: 20px; margin-bottom: 28px; }
+  .anniv-poem-line { font-size: 14.5px; line-height: 1.75; }
+  .anniv-poem-sig  { font-size: 22px; margin-top: 16px; }
+}
+
+/* --- Timeline anniv (chapitres) --- */
+@media(max-width:600px){
+  .anniv-timeline-wrap { margin-bottom: 28px; }
+  .atl-title { font-size: 14px; margin-bottom: 20px; }
+  .atl-card { padding: 16px 14px; }
+  .atl-card h4 { font-size: 14px; }
+  .atl-card p  { font-size: 12.5px; }
+  .atl-quote { font-size: 12px; padding: 8px 10px; }
+  .atl-emoji { font-size: 22px; }
+}
+
+/* --- Citations grid anniv --- */
+@media(max-width:600px){
+  .anniv-citations-wrap { margin-bottom: 28px; }
+  .acit-card { padding: 18px 16px; }
+  .acit-card p { font-size: 13px; }
+  .acit-num { font-size: 30px; }
+}
+
+/* --- Promesses anniv --- */
+@media(max-width:600px){
+  .anniv-promesses { grid-template-columns: 1fr; gap: 12px; }
+  .ap-card { padding: 22px 18px; }
+  .ap-icon { font-size: 30px; margin-bottom: 10px; }
+  .ap-card h4 { font-size: 14px; }
+  .ap-card p  { font-size: 13px; }
+}
+
+/* --- Mot de fin --- */
+@media(max-width:600px){
+  .anniv-final-word { margin: 24px auto 40px; }
+  .afw-inner { padding: 28px 18px; border-radius: 22px; }
+  .afw-icon { font-size: 40px; margin-bottom: 14px; }
+  .afw-inner h3 { font-size: 30px; margin-bottom: 10px; }
+  .afw-inner p  { font-size: 14.5px; margin-bottom: 16px; }
+  .afw-sig { font-size: 22px; }
+}
+
+/* --- Mosaïque anniv --- */
+@media(max-width:480px){
+  .anniv-mosaic.layout-mosaic,
+  .anniv-mosaic {
+    grid-template-columns: repeat(2,1fr);
+    grid-auto-rows: 80px;
+    gap: 6px;
+  }
+  .anniv-mosaic-item.big { grid-column: span 2; grid-row: span 2; }
+  .anniv-mosaic-item.wide { grid-column: span 2; }
+  .anniv-mosaic-label,.anniv-video-label { font-size: 20px; margin: 28px 0 14px; }
+}
+
+/* --- Carrousel vidéo --- */
+@media(max-width:480px){
+  .anniv-video-carousel { max-width: 100%; }
+  .avc-prev { left: 4px; }
+  .avc-next { right: 4px; }
+}
+
+/* --- Anniv toast & advice --- */
+@media(max-width:600px){
+  .anniv-toast { padding: 22px 16px; border-radius: 18px; margin-bottom: 28px; }
+  .anniv-toast p { font-size: 13.5px; }
+  .anniv-advice { padding: 24px 16px; border-radius: 18px; }
+  .anniv-advice h3 { font-size: 16px; }
+  .anniv-advice p { font-size: 13.5px; }
+}
+
+/* --- Opening quote --- */
+@media(max-width:600px){
+  .anniv-opening-quote { padding: 18px 16px; margin-bottom: 24px; }
+  .anniv-opening-quote p { font-size: 14px; }
+}
+
+/* --- Glitter button --- */
+@media(max-width:480px){
+  .glitter-btn { font-size: 13px; padding: 13px 24px; width: 90%; justify-content: center; }
+  .glitter-trigger-wrap { margin: 24px 0 6px; }
+}
+
+/* --- Wishes cards --- */
+@media(max-width:600px){
+  .anniv-wishes { grid-template-columns: 1fr; gap: 12px; margin-bottom: 28px; }
+  .wish-card { padding: 20px 16px; border-radius: 16px; }
+  .wish-icon { font-size: 28px; margin-bottom: 10px; }
+  .wish-card p { font-size: 13px; }
+}
+
+/* (ancien bloc cinéma supprimé — les styles sont définis plus haut) */
