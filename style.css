@@ -1371,3 +1371,403 @@ body.party-day .hide-on-party{
   .eng-card { padding: 32px 24px; }
   .lm-heart-btn { font-size: 64px; }
 }
+
+/* ══════════════════════════════════════════════
+   ANNIVERSAIRE 3 ANS — NOUVELLES SECTIONS
+   ══════════════════════════════════════════════ */
+
+/* ── GRAND HÉRO 3 ANS ── */
+.anniv-3ans-hero {
+  display: flex; align-items: center; justify-content: center; gap: 28px;
+  margin: 0 auto 32px; flex-wrap: wrap;
+}
+.a3h-number {
+  display: flex; flex-direction: column; align-items: center;
+  background: linear-gradient(135deg, var(--rose-deep), #ffd700);
+  border-radius: 24px; padding: 24px 36px;
+  box-shadow: 0 20px 60px rgba(232,80,122,.4);
+  animation: a3hFloat 3s ease-in-out infinite;
+}
+@keyframes a3hFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+.a3h-digit {
+  font-family: var(--ff-title); font-size: clamp(80px,15vw,140px);
+  color: #fff; line-height: 1; text-shadow: 0 4px 20px rgba(0,0,0,.2);
+}
+.a3h-label {
+  font-size: 13px; font-weight: 800; letter-spacing: 6px; color: rgba(255,255,255,.85);
+  text-transform: uppercase; margin-top: -8px;
+}
+.a3h-divider { font-size: 32px; color: var(--rose); }
+.a3h-since {
+  font-family: var(--ff-display); font-style: italic; font-size: 18px;
+  color: var(--text-mid); text-align: center;
+}
+
+/* ── STATS ROW ── */
+.anniv-stats-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+  gap: 16px; max-width: 800px; margin: 0 auto 60px;
+}
+.as-card {
+  background: #fff; border-radius: 20px; padding: 28px 20px; text-align: center;
+  box-shadow: 0 10px 36px rgba(232,80,122,.15);
+  border: 1.5px solid var(--rose-blush);
+  position: relative; overflow: hidden;
+  transition: transform .3s;
+}
+.as-card:hover { transform: translateY(-6px); }
+.as-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--rose), #ffd700);
+}
+.as-num {
+  font-family: var(--ff-title); font-size: clamp(28px,5vw,42px);
+  color: var(--rose-deep); line-height: 1; margin-bottom: 6px;
+}
+.as-label { font-size: 11px; color: var(--text-light); letter-spacing: 1.5px; text-transform: uppercase; }
+.as-icon { font-size: 24px; margin-top: 12px; }
+
+/* ── TIMELINE 3 ANS ── */
+.anniv-timeline-wrap { max-width: 860px; margin: 0 auto 60px; }
+.atl-title {
+  text-align: center; font-family: var(--ff-display); font-style: italic;
+  font-size: 18px; color: var(--text-mid); margin-bottom: 40px; letter-spacing: 1px;
+}
+.anniv-timeline { position: relative; padding: 20px 0; }
+.anniv-timeline::before {
+  content: ''; position: absolute; left: 50%; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(180deg, var(--rose-blush), var(--rose), var(--rose-blush));
+  transform: translateX(-50%);
+}
+.atl-item {
+  display: flex; align-items: flex-start; gap: 32px; margin-bottom: 48px;
+  position: relative;
+}
+.atl-item.left  { flex-direction: row; }
+.atl-item.right { flex-direction: row-reverse; }
+.atl-year {
+  font-family: var(--ff-display); font-style: italic; font-size: 13px;
+  color: var(--rose); letter-spacing: 2px; white-space: nowrap;
+  min-width: 100px; text-align: right; padding-top: 16px;
+}
+.atl-item.right .atl-year { text-align: left; }
+.atl-dot {
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+  color: #fff; font-weight: 800; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px rgba(232,80,122,.4);
+  position: relative; z-index: 2;
+}
+.atl-current .atl-dot {
+  background: linear-gradient(135deg, var(--rose-deep), #ffd700);
+  animation: a3hFloat 2s ease-in-out infinite;
+  width: 52px; height: 52px; font-size: 22px;
+}
+.atl-card {
+  background: #fff; border-radius: 20px; padding: 28px 24px;
+  box-shadow: 0 10px 36px rgba(232,80,122,.15); border: 1.5px solid var(--rose-blush);
+  flex: 1; transition: transform .3s, box-shadow .3s;
+}
+.atl-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(232,80,122,.25); }
+.atl-emoji { font-size: 28px; margin-bottom: 10px; display: block; }
+.atl-card h4 { font-size: 16px; font-weight: 700; color: var(--rose-deep); margin-bottom: 8px; }
+.atl-card p  { font-size: 14px; color: var(--text-mid); line-height: 1.7; margin-bottom: 12px; }
+.atl-quote {
+  font-family: var(--ff-display); font-style: italic; font-size: 13px;
+  color: var(--rose); padding: 10px 14px; background: var(--rose-pale);
+  border-radius: 10px; border-left: 3px solid var(--rose);
+}
+
+/* ── CITATIONS GRID ── */
+.anniv-citations-wrap { max-width: 920px; margin: 0 auto 60px; }
+.acit-title {
+  text-align: center; font-family: var(--ff-display); font-style: italic;
+  font-size: 18px; color: var(--text-mid); margin-bottom: 32px; letter-spacing: 1px;
+}
+.anniv-citations-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 20px;
+}
+.acit-card {
+  background: #fff; border-radius: 20px; padding: 28px 24px;
+  border: 1.5px solid var(--rose-blush); position: relative;
+  box-shadow: 0 8px 28px rgba(232,80,122,.1); transition: transform .3s;
+}
+.acit-card:hover { transform: translateY(-6px); }
+.acit-card.acit-featured {
+  background: linear-gradient(135deg, var(--rose-deep), #8B0000);
+  border-color: transparent; grid-column: span 1;
+}
+.acit-card.acit-featured p, .acit-card.acit-featured span { color: #fff !important; }
+.acit-card.acit-featured .acit-num { color: rgba(255,255,255,.4); }
+.acit-num {
+  font-family: var(--ff-title); font-size: 40px; color: var(--rose-pale);
+  line-height: 1; margin-bottom: 12px;
+}
+.acit-card p {
+  font-family: var(--ff-display); font-style: italic; font-size: 15px;
+  color: var(--text-dark); line-height: 1.8; margin-bottom: 12px;
+}
+.acit-card span { font-size: 11px; color: var(--text-light); letter-spacing: 2px; text-transform: uppercase; }
+
+/* ── PROMESSES ── */
+.anniv-promesses-wrap { max-width: 860px; margin: 0 auto 60px; }
+.ap-title {
+  text-align: center; font-family: var(--ff-display); font-style: italic;
+  font-size: 18px; color: var(--text-mid); margin-bottom: 32px; letter-spacing: 1px;
+}
+.anniv-promesses { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 20px; }
+.ap-card {
+  background: #fff; border-radius: 24px; padding: 36px 28px; text-align: center;
+  box-shadow: 0 10px 36px rgba(232,80,122,.15); border: 1.5px solid var(--rose-blush);
+  transition: transform .3s;
+}
+.ap-card:hover { transform: translateY(-8px); }
+.ap-card-mid {
+  background: linear-gradient(160deg, var(--rose), var(--rose-deep));
+  border-color: transparent; transform: scale(1.04);
+}
+.ap-card-mid:hover { transform: scale(1.04) translateY(-8px); }
+.ap-card-mid h4, .ap-card-mid p { color: #fff !important; }
+.ap-icon { font-size: 40px; margin-bottom: 14px; display: block; }
+.ap-card h4 { font-size: 16px; font-weight: 700; color: var(--rose-deep); margin-bottom: 10px; }
+.ap-card p  { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+
+/* ── MOT DE FIN ── */
+.anniv-final-word {
+  max-width: 640px; margin: 40px auto 80px; text-align: center;
+}
+.afw-inner {
+  background: linear-gradient(135deg, var(--rose-deep), #5C0022);
+  border-radius: 28px; padding: 52px 44px; color: #fff;
+  box-shadow: 0 30px 80px rgba(232,80,122,.35);
+  position: relative; overflow: hidden;
+}
+.afw-inner::before {
+  content: '♡'; position: absolute; right: -10px; bottom: -20px;
+  font-size: 180px; opacity: .06; line-height: 1;
+}
+.afw-icon { font-size: 52px; margin-bottom: 20px; display: block;
+  animation: a3hFloat 2.5s ease-in-out infinite; }
+.afw-inner h3 { font-family: var(--ff-title); font-size: 42px; margin-bottom: 14px; }
+.afw-inner p  { font-family: var(--ff-display); font-style: italic; font-size: 18px;
+  opacity: .9; line-height: 1.8; margin-bottom: 24px; }
+.afw-sig { font-family: var(--ff-title); font-size: 28px; opacity: .85; }
+
+/* ── CANVAS CŒURS FLOTTANTS ── */
+#heartsCanvas { opacity: .6; }
+
+/* ── RESPONSIVE TIMELINE ── */
+@media(max-width:660px){
+  .anniv-timeline::before { left: 22px; }
+  .atl-item.left, .atl-item.right { flex-direction: column; gap: 12px; }
+  .atl-year { text-align: left; min-width: auto; padding-top: 0; }
+  .atl-dot  { width: 36px; height: 36px; font-size: 14px; }
+  .anniv-citations-grid { grid-template-columns: 1fr; }
+  .a3h-digit { font-size: 80px; }
+  .afw-inner { padding: 36px 24px; }
+}
+
+/* ══════════════════════════════════════════════
+   RIDEAU CINÉMA — 21 JUIN UNIQUEMENT
+   ══════════════════════════════════════════════ */
+
+#cinemaScreen {
+  position: fixed; inset: 0; z-index: 99999;
+  display: flex; flex-direction: column;
+  overflow: hidden; background: #000;
+}
+
+/* ── Texture velours ── */
+.cinema-curtain-left,
+.cinema-curtain-right {
+  position: absolute; top: 0; bottom: 0; width: 52%;
+  z-index: 2; overflow: hidden;
+  transition: transform 1.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.cinema-curtain-left  { left: 0; transform: translateX(0); }
+.cinema-curtain-right { right: 0; transform: translateX(0); }
+
+.cinema-curtain-left .curtain-body,
+.cinema-curtain-right .curtain-body {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    #6B0F1A 0%, #8B1A1A 15%, #7A0F17 30%,
+    #9B2020 45%, #7A0F17 60%, #8B1A1A 75%,
+    #6B0F1A 90%, #4A0A10 100%
+  );
+}
+
+/* Plis du rideau */
+.cinema-curtain-left .curtain-body::before,
+.cinema-curtain-right .curtain-body::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    rgba(0,0,0,.18) 6px,
+    transparent 12px,
+    rgba(255,255,255,.04) 18px,
+    transparent 24px,
+    rgba(0,0,0,.12) 30px,
+    transparent 36px
+  );
+}
+
+/* Reflet brillant sur le velours */
+.cinema-curtain-left .curtain-body::after,
+.cinema-curtain-right .curtain-body::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,.08) 0%,
+    transparent 40%,
+    rgba(0,0,0,.2) 100%
+  );
+}
+.cinema-curtain-right .curtain-body::after {
+  background: linear-gradient(-90deg,
+    rgba(255,255,255,.08) 0%,
+    transparent 40%,
+    rgba(0,0,0,.2) 100%
+  );
+}
+
+/* Franges dorées en bas */
+.curtain-fringe {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 28px;
+  background: repeating-linear-gradient(
+    90deg,
+    #c9a84c 0px, #e8c96a 4px, #a07830 8px, #c9a84c 12px
+  );
+  z-index: 3;
+}
+.curtain-fringe::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #7a5c1e, #e8c96a, #7a5c1e);
+}
+
+/* Tringle dorée en haut */
+.cinema-rail {
+  position: absolute; top: 0; left: 0; right: 0; height: 22px;
+  background: linear-gradient(180deg, #1a1a1a, #2d2d2d);
+  z-index: 10; display: flex; align-items: center;
+}
+.cinema-rail::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 5px;
+  background: linear-gradient(90deg, #7a5c1e, #e8c96a 30%, #c9a84c 60%, #7a5c1e);
+  box-shadow: 0 2px 8px rgba(200,160,60,.5);
+}
+/* Anneaux de rideau */
+.rail-rings {
+  display: flex; gap: 0; position: absolute; bottom: -6px; left: 0; right: 0;
+  padding: 0 4px; justify-content: space-around;
+}
+.rail-ring {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f0d060, #9a6c20);
+  box-shadow: 0 2px 4px rgba(0,0,0,.5);
+  flex-shrink: 0;
+}
+
+/* ── Contenu centre du rideau ── */
+.cinema-center {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 24px; text-align: center; padding: 20px;
+}
+.cinema-logo {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(42px, 10vw, 80px);
+  color: #e8c96a;
+  text-shadow: 0 0 30px rgba(232,201,106,.6), 0 4px 20px rgba(0,0,0,.8);
+  animation: cinemaTitleGlow 2s ease-in-out infinite alternate;
+  opacity: 0; transform: scale(.8);
+  transition: opacity .8s ease .4s, transform .8s ease .4s;
+}
+.cinema-logo.visible { opacity: 1; transform: scale(1); }
+@keyframes cinemaTitleGlow {
+  from { text-shadow: 0 0 20px rgba(232,201,106,.4), 0 4px 20px rgba(0,0,0,.8); }
+  to   { text-shadow: 0 0 50px rgba(232,201,106,.9), 0 4px 30px rgba(0,0,0,.8); }
+}
+
+.cinema-date {
+  font-size: 13px; letter-spacing: 5px; text-transform: uppercase;
+  color: rgba(232,201,106,.7); font-family: 'Lato', sans-serif; font-weight: 300;
+  opacity: 0; transition: opacity .6s ease .8s;
+}
+.cinema-date.visible { opacity: 1; }
+
+.cinema-tagline {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: clamp(15px, 3.5vw, 22px); color: rgba(255,255,255,.85);
+  max-width: 520px; line-height: 1.6;
+  opacity: 0; transition: opacity .6s ease 1s;
+}
+.cinema-tagline.visible { opacity: 1; }
+
+.cinema-stars {
+  display: flex; gap: 12px; font-size: 22px;
+  opacity: 0; transition: opacity .6s ease 1.2s;
+  animation: cinemaStarPulse 1.5s ease-in-out infinite;
+}
+.cinema-stars.visible { opacity: 1; }
+@keyframes cinemaStarPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+.cinema-btn {
+  margin-top: 8px;
+  background: linear-gradient(135deg, #c9a84c, #e8c96a, #a07830);
+  color: #1a0a00; font-weight: 800; font-size: 15px;
+  border: none; border-radius: 50px; padding: 16px 40px;
+  cursor: pointer; letter-spacing: 2px; text-transform: uppercase;
+  box-shadow: 0 8px 30px rgba(200,160,60,.5);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .6s ease 1.4s, transform .6s ease 1.4s, box-shadow .2s, filter .2s;
+}
+.cinema-btn.visible { opacity: 1; transform: translateY(0); }
+.cinema-btn:hover { box-shadow: 0 14px 40px rgba(200,160,60,.8); filter: brightness(1.1); }
+
+.cinema-hint {
+  font-size: 12px; letter-spacing: 2px; color: rgba(255,255,255,.35);
+  text-transform: uppercase; font-family: 'Lato', sans-serif;
+  opacity: 0; transition: opacity .6s ease 1.8s;
+}
+.cinema-hint.visible { opacity: 1; }
+
+/* ── Spot lights ── */
+.cinema-spotlight {
+  position: absolute; top: 0; pointer-events: none; z-index: 1;
+  width: 300px; opacity: .18;
+  background: conic-gradient(from 180deg at 50% 0%, transparent 75deg, rgba(255,240,180,.9) 90deg, transparent 105deg);
+  transform-origin: top center;
+}
+.cinema-spotlight.sp1 { left: 15%; height: 70vh; animation: spotSway1 6s ease-in-out infinite; }
+.cinema-spotlight.sp2 { right: 15%; height: 65vh; animation: spotSway2 7s ease-in-out infinite; }
+@keyframes spotSway1 { 0%,100%{transform:rotate(-8deg)} 50%{transform:rotate(6deg)} }
+@keyframes spotSway2 { 0%,100%{transform:rotate(6deg)} 50%{transform:rotate(-8deg)} }
+
+/* ── Film grain overlay ── */
+.cinema-grain {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: .04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ── Ouverture du rideau ── */
+#cinemaScreen.opening .cinema-curtain-left  { transform: translateX(-96%); }
+#cinemaScreen.opening .cinema-curtain-right { transform: translateX(96%); }
+
+/* ── Disparition finale ── */
+#cinemaScreen.done {
+  opacity: 0; pointer-events: none;
+  transition: opacity .7s ease;
+}
+
+/* ── Responsive ── */
+@media(max-width:500px){
+  .cinema-btn { padding: 14px 28px; font-size: 13px; }
+  .rail-ring   { width: 9px; height: 9px; }
+}

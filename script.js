@@ -495,12 +495,12 @@ function checkAnniversaryDay() {
   startConfetti();
 
   /* 4. Mettre à jour le titre de l'onglet navigateur */
-  document.title = '🎉 Joyeux Anniversaire — Nous Deux ♡';
+  document.title = '🎉 Joyeux 3 Ans — Nous Deux ♡';
 
   /* 5. Notification discrète en haut de page */
   showAnniversaryBanner();
 
-  /* 6. Construire la mosaïque photo (ordre et tailles différents de la galerie normale) */
+  /* 6. Construire la mosaïque photo */
   buildAnnivMosaic();
 
   /* 6b. Activer le bouton paillettes */
@@ -508,7 +508,171 @@ function checkAnniversaryDay() {
 
   /* 7. Construire le carrousel vidéo plein format */
   buildAnnivVideoCarousel();
+
+  /* 8. Animer les stats chiffrées */
+  animateAnnivStats();
+
+  /* 9. Lancer les cœurs flottants sur canvas */
+  startFloatingHearts();
+
+  /* 10. Salves de confettis à l'ouverture */
+  setTimeout(() => launchCelebrationBurst(), 800);
+  setTimeout(() => launchCelebrationBurst(), 2400);
+
+  /* 11. Rideau de cinéma — remplace le splash */
+  initCinemaScreen();
 }
+
+/* ── RIDEAU DE CINÉMA — le 21 juin uniquement ── */
+function initCinemaScreen() {
+  const cinema  = document.getElementById('cinemaScreen');
+  const splash  = document.getElementById('splashScreen');
+  const btn     = document.getElementById('cinemaBtn');
+  if (!cinema) return;
+
+  /* Cacher le splash normal, montrer le cinéma */
+  if (splash) splash.style.display = 'none';
+  cinema.style.display = 'flex';
+
+  /* Générer les anneaux du rail */
+  const railRings = document.getElementById('railRings');
+  if (railRings) {
+    const count = Math.ceil(window.innerWidth / 22);
+    for (let i = 0; i < count; i++) {
+      const r = document.createElement('div');
+      r.className = 'rail-ring';
+      railRings.appendChild(r);
+    }
+  }
+
+  /* Faire apparaître les éléments texte en cascade */
+  setTimeout(() => document.getElementById('cinemaLogo')?.classList.add('visible'),   300);
+  setTimeout(() => document.getElementById('cinemaDate')?.classList.add('visible'),   700);
+  setTimeout(() => document.getElementById('cinemaTagline')?.classList.add('visible'),1000);
+  setTimeout(() => document.getElementById('cinemaStars')?.classList.add('visible'),  1300);
+  setTimeout(() => document.getElementById('cinemaBtn')?.classList.add('visible'),    1600);
+  setTimeout(() => document.getElementById('cinemaHint')?.classList.add('visible'),   2000);
+
+  /* Ouvrir le rideau */
+  function openCurtain() {
+    btn && (btn.disabled = true);
+    cinema.classList.add('opening');
+
+    /* Pendant l'ouverture : afficher le splash anniversaire */
+    setTimeout(() => {
+      /* Démarrer la vraie page */
+      startEverything();
+    }, 900);
+
+    /* Puis faire disparaître le cinéma */
+    setTimeout(() => {
+      cinema.classList.add('done');
+      setTimeout(() => cinema.remove(), 800);
+    }, 1800);
+  }
+
+  btn?.addEventListener('click', openCurtain);
+  /* Aussi sur touche Espace ou Entrée */
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === ' ' || e.key === 'Enter') && !cinema.classList.contains('opening')) {
+      openCurtain();
+    }
+  }, { once: true });
+}
+
+
+function animateAnnivStats() {
+  const START_DATE = new Date('2023-06-21T00:00:00');
+  const now2   = new Date();
+  const ms2    = now2 - START_DATE;
+  const jours2    = Math.floor(ms2 / 864e5);
+  const heures2   = Math.floor(ms2 / 36e5);
+  const semaines2 = Math.floor(ms2 / (7 * 864e5));
+
+  function countUp(el, target, duration) {
+    if (!el) return;
+    const startT = performance.now();
+    const update = (t) => {
+      const progress = Math.min((t - startT) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(ease * target).toLocaleString('fr-FR');
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target.toLocaleString('fr-FR');
+    };
+    requestAnimationFrame(update);
+  }
+
+  const statsRow = document.querySelector('.anniv-stats-row');
+  if (!statsRow) return;
+  const obs2 = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      countUp(document.getElementById('asJours'),    jours2,    1800);
+      countUp(document.getElementById('asHeures'),   heures2,   2200);
+      countUp(document.getElementById('asSemaines'), semaines2, 1500);
+      obs2.disconnect();
+    }
+  }, { threshold: .3 });
+  obs2.observe(statsRow);
+}
+
+/* ── CŒURS FLOTTANTS SUR CANVAS ── */
+function startFloatingHearts() {
+  const canvas = document.getElementById('heartsCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const fHearts = Array.from({ length: 22 }, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight + window.innerHeight,
+    size: 14 + Math.random() * 20,
+    speed: .3 + Math.random() * .7,
+    alpha: .25 + Math.random() * .4,
+    wobble: Math.random() * Math.PI * 2,
+    wobbleSpeed: .015 + Math.random() * .025,
+  }));
+
+  let fRunning = true;
+  function fLoop() {
+    if (!fRunning) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    fHearts.forEach(h => {
+      h.y -= h.speed; h.wobble += h.wobbleSpeed;
+      const wx = h.x + Math.sin(h.wobble) * 20;
+      if (h.y < -40) { h.y = canvas.height + 40; h.x = Math.random() * canvas.width; }
+      ctx.save(); ctx.globalAlpha = h.alpha;
+      ctx.font = h.size + 'px serif'; ctx.textAlign = 'center';
+      ctx.fillText('❤️', wx, h.y); ctx.restore();
+    });
+    requestAnimationFrame(fLoop);
+  }
+  fLoop();
+  document.addEventListener('visibilitychange', () => {
+    fRunning = !document.hidden; if (fRunning) fLoop();
+  });
+}
+
+/* ── SALVE DE CONFETTIS ── */
+function launchCelebrationBurst() {
+  const colors = ['#e8507a','#ffd700','#ff8fa3','#fff','#ff6b9d','#ffc0cb','#b5179e'];
+  for (let i = 0; i < 55; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.style.cssText = `position:fixed;top:${5+Math.random()*35}%;left:${Math.random()*100}%;
+        width:${6+Math.random()*10}px;height:${6+Math.random()*10}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius:${Math.random()>.5?'50%':'2px'};pointer-events:none;z-index:9998;
+        animation:confettiFall ${1.5+Math.random()*2}s ease forwards;`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3500);
+    }, i * 25);
+  }
+}
+
+
 
 /* --- MOSAÏQUE PHOTO SPÉCIALE FÊTE (avec dispositions multiples) --- */
 function buildAnnivMosaic() {

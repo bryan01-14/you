@@ -15,6 +15,51 @@
 <div class="cursor" id="cursor"></div>
 <div class="cursor-trail" id="cursorTrail"></div>
 
+<!-- ═══════════════════════════════════════════
+     RIDEAU CINÉMA — visible UNIQUEMENT le 21 juin
+     Injecté et activé par JS via checkAnniversaryDay()
+     ═══════════════════════════════════════════ -->
+<div id="cinemaScreen" style="display:none">
+
+  <!-- Grain pellicule -->
+  <div class="cinema-grain"></div>
+
+  <!-- Rail + anneaux -->
+  <div class="cinema-rail">
+    <div class="rail-rings" id="railRings"></div>
+  </div>
+
+  <!-- Spots lumineux -->
+  <div class="cinema-spotlight sp1"></div>
+  <div class="cinema-spotlight sp2"></div>
+
+  <!-- Rideau gauche -->
+  <div class="cinema-curtain-left">
+    <div class="curtain-body"></div>
+    <div class="curtain-fringe"></div>
+  </div>
+
+  <!-- Rideau droit -->
+  <div class="cinema-curtain-right">
+    <div class="curtain-body"></div>
+    <div class="curtain-fringe"></div>
+  </div>
+
+  <!-- Contenu centre -->
+  <div class="cinema-center">
+    <div class="cinema-logo" id="cinemaLogo">Nous Deux</div>
+    <div class="cinema-date" id="cinemaDate">21 juin 2023 — 21 juin 2026</div>
+    <p class="cinema-tagline" id="cinemaTagline">
+      Une histoire vraie. Imparfaite. Inoubliable.<br>
+      <em>Et aujourd'hui — trois ans.</em>
+    </p>
+    <div class="cinema-stars" id="cinemaStars">★ ★ ★ ★ ★</div>
+    <button class="cinema-btn" id="cinemaBtn">✦ Ouvrir le rideau ✦</button>
+    <p class="cinema-hint" id="cinemaHint">Clique pour commencer ♡</p>
+  </div>
+
+</div>
+
 <div id="splashScreen" class="splash">
   <div class="splash-bg"></div>
   <div class="splash-petals" id="splashPetals"></div>
@@ -101,40 +146,173 @@
      MODE FÊTE — page complètement différente,
      visible UNIQUEMENT le 21 juin
      ═══════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════
+     MODE FÊTE — page complètement différente,
+     visible UNIQUEMENT le 21 juin
+     ═══════════════════════════════════════ -->
 <section id="anniversaryDay" class="section anniv-section" style="display:none">
   <div class="anniv-confetti" id="annivConfetti"></div>
-  <div class="container">
+  <canvas id="heartsCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+  <div class="container" style="position:relative;z-index:2">
 
-    <div class="anniv-badge reveal">🎉 21 Juin — Joyeux Anniversaire 🎉</div>
+    <!-- ══ INTRO BADGE ANIMÉ ══ -->
+    <div class="anniv-badge reveal">🎉 21 Juin 2026 — Joyeux Anniversaire 🎉</div>
 
-    <!-- CITATION D'OUVERTURE -->
-    <div class="anniv-opening-quote reveal">
-      <p>« Il n'y a qu'un bonheur dans la vie, c'est d'aimer et d'être aimé. »</p>
-      <span>— George Sand</span>
+    <!-- ══ GRAND TITRE 3 ANS ══ -->
+    <div class="anniv-3ans-hero reveal">
+      <div class="a3h-number">
+        <span class="a3h-digit">3</span>
+        <span class="a3h-label">ANS</span>
+      </div>
+      <div class="a3h-divider">✦</div>
+      <div class="a3h-since">21 Juin 2023 → 21 Juin 2026</div>
     </div>
 
-    <h2 class="anniv-title reveal">3 ans, nous deux</h2>
-    <p class="anniv-sub reveal">Aujourd'hui, on ne regarde pas en arrière. On célèbre.</p>
+    <h2 class="anniv-title reveal">Trois ans, nous deux ♡</h2>
+    <p class="anniv-sub reveal">Aujourd'hui on ne regarde pas en arrière.<br>On célèbre ce qu'on a construit.</p>
 
-    <!-- POÈME SIMPLE -->
+    <!-- ══ COMPTEUR EN CHIFFRES ══ -->
+    <div class="anniv-stats-row reveal">
+      <div class="as-card">
+        <div class="as-num" id="asJours">1096</div>
+        <div class="as-label">jours ensemble</div>
+        <div class="as-icon">📅</div>
+      </div>
+      <div class="as-card">
+        <div class="as-num" id="asHeures">26304</div>
+        <div class="as-label">heures partagées</div>
+        <div class="as-icon">⏰</div>
+      </div>
+      <div class="as-card">
+        <div class="as-num" id="asSemaines">156</div>
+        <div class="as-label">semaines de bonheur</div>
+        <div class="as-icon">🗓️</div>
+      </div>
+      <div class="as-card">
+        <div class="as-num">∞</div>
+        <div class="as-label">raisons de t'aimer</div>
+        <div class="as-icon">❤️</div>
+      </div>
+    </div>
+
+    <!-- ══ FRISE DES 3 ANS ══ -->
+    <div class="anniv-timeline-wrap reveal">
+      <div class="atl-title">✦ Notre histoire en 3 chapitres ✦</div>
+      <div class="anniv-timeline">
+        <div class="atl-item left">
+          <div class="atl-year">2023</div>
+          <div class="atl-dot">1</div>
+          <div class="atl-card">
+            <div class="atl-emoji">🌱</div>
+            <h4>La première année</h4>
+            <p>Le début de tout. Les premières vraies conversations, les premières émotions, la découverte de quelqu'un qui allait tout changer.</p>
+            <div class="atl-quote">« Chaque grand amour commence par un regard qui dure un peu trop longtemps. »</div>
+          </div>
+        </div>
+        <div class="atl-item right">
+          <div class="atl-year">2024</div>
+          <div class="atl-dot">2</div>
+          <div class="atl-card">
+            <div class="atl-emoji">🌊</div>
+            <h4>La deuxième année</h4>
+            <p>On a traversé des tempêtes. Des moments de doute, de silence. Et on a choisi de rester. C'est là qu'on a su que c'était vrai.</p>
+            <div class="atl-quote">« L'amour vrai ne fuit pas les obstacles, il les traverse. »</div>
+          </div>
+        </div>
+        <div class="atl-item left atl-current">
+          <div class="atl-year">2025→2026</div>
+          <div class="atl-dot">3</div>
+          <div class="atl-card">
+            <div class="atl-emoji">🌟</div>
+            <h4>La troisième année</h4>
+            <p>Plus de maturité, plus de complicité. On se connaît vraiment. Et on se choisit encore — chaque matin, librement.</p>
+            <div class="atl-quote">« Aimer, c'est choisir l'autre encore et encore. »</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ POÈME SPÉCIAL 3 ANS ══ -->
     <div class="anniv-poem-card reveal">
       <div class="anniv-poem-deco">♡</div>
-      <p class="anniv-poem-line">Trois ans avec toi.</p>
-      <p class="anniv-poem-line">Trois ans de hauts, de bas, et de retours.</p>
-      <p class="anniv-poem-line">Trois ans à choisir de rester.</p>
+      <p class="anniv-poem-line">Trois ans.</p>
+      <p class="anniv-poem-line">Pas trois ans parfaits —</p>
+      <p class="anniv-poem-line">Trois ans vrais.</p>
       <p class="anniv-poem-line">&nbsp;</p>
-      <p class="anniv-poem-line">Pas besoin de grands mots.</p>
-      <p class="anniv-poem-line">Juste la vérité : <strong>tu comptes pour moi.</strong></p>
-      <p class="anniv-poem-line">Aujourd'hui, plus que jamais.</p>
+      <p class="anniv-poem-line">Des jours où tout allait,</p>
+      <p class="anniv-poem-line">Des jours où rien n'allait —</p>
+      <p class="anniv-poem-line">Et à chaque fois, tu étais là.</p>
       <p class="anniv-poem-line">&nbsp;</p>
-      <p class="anniv-poem-line"><strong>Joyeux anniversaire à nous deux.</strong> ♡</p>
-      <div class="anniv-poem-sig">— Pour notre 3ème année</div>
+      <p class="anniv-poem-line">Ce soir je ne veux pas de grands discours.</p>
+      <p class="anniv-poem-line">Je veux juste que tu saches :</p>
+      <p class="anniv-poem-line"><strong>ces trois ans avec toi,</strong></p>
+      <p class="anniv-poem-line"><strong>c'est le plus beau choix que j'ai fait.</strong></p>
+      <p class="anniv-poem-line">&nbsp;</p>
+      <p class="anniv-poem-line">Joyeux anniversaire, mon amour. ♡</p>
+      <div class="anniv-poem-sig">— Pour notre 3ème année ✦</div>
     </div>
 
-    <!-- GALERIE MOSAÏQUE SPÉCIALE FÊTE -->
-    <div class="anniv-mosaic-label reveal">✦ Nos plus beaux instants ✦</div>
+    <!-- ══ CITATIONS SPÉCIALES ANNIVERSAIRE ══ -->
+    <div class="anniv-citations-wrap reveal">
+      <div class="acit-title">✦ Ce que les grands amours ont dit ✦</div>
+      <div class="anniv-citations-grid">
+        <div class="acit-card">
+          <div class="acit-num">01</div>
+          <p>« On aime vraiment quand on aime sans raison. »</p>
+          <span>— Alfred de Musset</span>
+        </div>
+        <div class="acit-card acit-featured">
+          <div class="acit-num">♡</div>
+          <p>« Trois années passées ensemble ne font pas un souvenir — elles font une vie. »</p>
+          <span>— Inspiration</span>
+        </div>
+        <div class="acit-card">
+          <div class="acit-num">02</div>
+          <p>« Le bonheur n'est pas d'avoir ce que l'on désire, mais d'aimer ce que l'on a. »</p>
+          <span>— Proverbe</span>
+        </div>
+        <div class="acit-card">
+          <div class="acit-num">03</div>
+          <p>« Ce qui se fait avec amour se fait toujours bien. »</p>
+          <span>— Vincent Van Gogh</span>
+        </div>
+        <div class="acit-card acit-featured">
+          <div class="acit-num">♡</div>
+          <p>« Rester l'un avec l'autre, traverser l'orage ensemble et se retrouver — c'est l'acte d'amour le plus courageux qui soit. »</p>
+          <span>— Notre histoire</span>
+        </div>
+        <div class="acit-card">
+          <div class="acit-num">04</div>
+          <p>« Aimer quelqu'un, c'est lui dire : tu ne mourras pas. »</p>
+          <span>— Gabriel Marcel</span>
+        </div>
+      </div>
+    </div>
 
-    <!-- Sélecteur de disposition -->
+    <!-- ══ 3 PROMESSES POUR L'ANNÉE 4 ══ -->
+    <div class="anniv-promesses-wrap reveal">
+      <div class="ap-title">✦ Ce qu'on se promet pour l'année 4 ✦</div>
+      <div class="anniv-promesses">
+        <div class="ap-card">
+          <div class="ap-icon">🤝</div>
+          <h4>Rester honnêtes</h4>
+          <p>Même quand la vérité est difficile à dire. Parce que la sincérité, c'est la fondation de tout.</p>
+        </div>
+        <div class="ap-card ap-card-mid">
+          <div class="ap-icon">🌱</div>
+          <h4>Continuer de grandir</h4>
+          <p>Ensemble et individuellement. Deux personnes épanouies font une union plus forte.</p>
+        </div>
+        <div class="ap-card">
+          <div class="ap-icon">😂</div>
+          <h4>Ne jamais oublier de rire</h4>
+          <p>Le rire ensemble, c'est la preuve vivante qu'on est encore en vie dans cette relation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ GALERIE MOSAÏQUE SPÉCIALE FÊTE ══ -->
+    <div class="anniv-mosaic-label reveal">✦ Nos plus beaux instants ✦</div>
     <div class="layout-switcher reveal">
       <button class="layout-btn active" data-layout="mosaic">🧩 Mosaïque</button>
       <button class="layout-btn" data-layout="grid">▦ Grille</button>
@@ -142,10 +320,9 @@
       <button class="layout-btn" data-layout="stack">🃏 Pile</button>
       <button class="layout-btn" data-layout="film">🎞️ Pellicule</button>
     </div>
-
     <div class="anniv-mosaic reveal" id="annivMosaic" data-current-layout="mosaic"></div>
 
-    <!-- BOUTON PAILLETTES -->
+    <!-- ══ BOUTON PAILLETTES ══ -->
     <div class="glitter-trigger-wrap reveal">
       <button class="glitter-btn" id="glitterBtn">
         <span class="glitter-btn-icon">✨</span>
@@ -155,7 +332,7 @@
     </div>
     <div id="glitterCanvas"></div>
 
-    <!-- CARROUSEL VIDÉO PLEIN FORMAT -->
+    <!-- ══ CARROUSEL VIDÉO PLEIN FORMAT ══ -->
     <div class="anniv-video-label reveal">✦ En mouvement ✦</div>
     <div class="anniv-video-carousel reveal" id="annivVideoCarousel">
       <button class="avc-arrow avc-prev" id="avcPrev">‹</button>
@@ -164,18 +341,21 @@
       <div class="avc-dots" id="avcDots"></div>
     </div>
 
-    <!-- TOAST -->
+    <!-- ══ TOAST FINAL ══ -->
     <div class="anniv-toast reveal">
       <span class="anniv-toast-icon">🥂</span>
-      <p>Aujourd'hui, on ne parle pas de nos disputes.<br>
-      On célèbre juste qu'on est <strong>encore là, ensemble</strong>.</p>
+      <p>Trois ans. Ce n'est pas une arrivée — c'est une confirmation.<br>
+      La confirmation qu'on a eu raison de se choisir. <strong>À l'année 4. ♡</strong></p>
     </div>
 
-    <!-- LE CONSEIL FINAL -->
-    <div class="anniv-advice reveal">
-      <div class="anniv-advice-icon">💡</div>
-      <h3>Un conseil pour l'année qui vient</h3>
-      <p>Ne cherchez pas une relation parfaite. Cherchez quelqu'un qui reste, même dans l'imperfection. <strong>Vous, vous restez.</strong> Continuez juste comme ça : avec sincérité, avec patience, et avec ce petit pas en avant chaque jour, même les jours difficiles.</p>
+    <!-- ══ MOT DE FIN ══ -->
+    <div class="anniv-final-word reveal">
+      <div class="afw-inner">
+        <div class="afw-icon">🌹</div>
+        <h3>Merci d'être toi.</h3>
+        <p>Merci de rester. Merci de rire. Merci d'exister dans ma vie.</p>
+        <div class="afw-sig">— Pour toujours et encore ♡</div>
+      </div>
     </div>
 
   </div>
