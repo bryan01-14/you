@@ -10,48 +10,104 @@ function diffMonths() { return Math.floor(diffDays() / 30.44); }
 const isMobile = window.matchMedia('(max-width: 768px)').matches ||
                  ('ontouchstart' in window);
 
-/* ══════════════════════════════════════
-   SPLASH — déclenche le son au clic
-   ══════════════════════════════════════ */
-const MUS = document.getElementById('bgMusic');
-const splash = document.getElementById('splashScreen');
-const splashBtn = document.getElementById('splashBtn');
 
+/* ══════════════════════════════════════════════
+   SPLASH — deux modes selon la date
+   ══════════════════════════════════════════════ */
+const MUS        = document.getElementById('bgMusic');
+const splashWrap = document.getElementById('splashScreen');
+
+/* Démarrer le site après fermeture du splash */
 function startEverything() {
   if (MUS) {
-    MUS.volume = 0.8;
-    MUS.loop = true;
-    MUS.currentTime = 0;
-    MUS.play()
-      .then(() => {
-        const v = document.getElementById('mpVinyl');
-        if (v) v.classList.add('spinning');
-        const b = document.getElementById('mpBtn');
-        if (b) b.textContent = '⏸';
-      })
-      .catch(() => {});
+    MUS.volume = 0.8; MUS.loop = true; MUS.currentTime = 0;
+    MUS.play().then(() => {
+      const v = document.getElementById('mpVinyl');
+      if (v) v.classList.add('spinning');
+      const b = document.getElementById('mpBtn');
+      if (b) b.textContent = '⏸';
+    }).catch(() => {});
     MUS.addEventListener('ended', () => { MUS.currentTime = 0; MUS.play().catch(() => {}); });
   }
-  if (splash) {
-    splash.classList.add('hide');
-    setTimeout(() => { splash.style.display = 'none'; }, 900);
+  if (splashWrap) {
+    splashWrap.classList.add('hide');
+    setTimeout(() => { splashWrap.style.display = 'none'; }, 900);
   }
   initSite();
 }
 
-if (splashBtn) splashBtn.addEventListener('click', startEverything);
-if (splash) splash.addEventListener('click', e => { if (e.target === splash) startEverything(); });
+/* Détecter si on est le 21 juin */
+const _now = new Date();
+const IS_ANNIV = (_now.getMonth() === 5 && _now.getDate() === 21);
 
-/* Pétales splash — moins sur mobile */
-const splashPetals = document.getElementById('splashPetals');
-if (splashPetals) {
-  const count = isMobile ? 4 : 8;
-  ['🌸','🌺','🌷','✿','❀'].slice(0, count).forEach((p, i) => {
-    const el = document.createElement('span');
-    el.style.cssText = `position:absolute;top:-20px;left:${10+i*18}%;font-size:${14+i*3}px;animation:petalFall ${7+i*2}s ${i*1.2}s linear infinite;opacity:0`;
-    el.textContent = p;
-    splashPetals.appendChild(el);
+if (IS_ANNIV) {
+  /* ── MODE CINÉMA (21 juin) ── */
+  const cinema = document.getElementById('cinemaSplash');
+  if (cinema) cinema.style.display = 'block';
+
+  /* Générer les anneaux du rail */
+  const railRings = document.getElementById('railRings');
+  if (railRings) {
+    const count = Math.ceil(window.innerWidth / 20) + 6;
+    for (let i = 0; i < count; i++) {
+      const r = document.createElement('div');
+      r.className = 'rail-ring';
+      railRings.appendChild(r);
+    }
+  }
+
+  /* Apparition en cascade des textes */
+  const show = (id, delay) => setTimeout(() => document.getElementById(id)?.classList.add('visible'), delay);
+  const showQ = (sel, delay) => setTimeout(() => document.querySelector(sel)?.classList.add('visible'), delay);
+  show('cinemaLogo',       300);
+  showQ('.cinema-sep',     700);
+  show('cinemaAnnivBadge', 850);
+  show('cinemaDate',       1050);
+  show('cinemaTagline',    1280);
+  show('cinemaStars',      1500);
+  setTimeout(() => {
+    const btn = document.getElementById('cinemaBtn');
+    if (btn) btn.classList.add('visible');
+    document.querySelector('.cinema-hint')?.classList.add('visible');
+  }, 1750);
+
+  /* Clic sur le bouton : ouvrir les rideaux puis lancer le site */
+  const cinemaBtn = document.getElementById('cinemaBtn');
+  if (cinemaBtn) cinemaBtn.addEventListener('click', () => {
+    cinema.classList.add('opening');
+    setTimeout(startEverything, 1800);
   });
+
+  /* Espace / Entrée = même action */
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === ' ' || e.key === 'Enter') && !cinema.classList.contains('opening')) {
+      cinema.classList.add('opening');
+      setTimeout(startEverything, 1800);
+    }
+  }, { once: true });
+
+} else {
+  /* ── MODE NORMAL (autres jours) : splash rose ── */
+  const normal = document.getElementById('normalSplash');
+  if (normal) normal.style.display = 'block';
+
+  /* Pétales */
+  const splashPetals = document.getElementById('splashPetals');
+  if (splashPetals) {
+    const count = isMobile ? 4 : 8;
+    ['🌸','🌺','🌷','✿','❀','🌹','🏵️','💮'].slice(0, count).forEach((p, i) => {
+      const el = document.createElement('span');
+      el.style.cssText = `position:absolute;top:-20px;left:${8+i*11}%;font-size:${14+i*2}px;animation:petalFall ${7+i*2}s ${i*1.2}s linear infinite;opacity:0`;
+      el.textContent = p;
+      splashPetals.appendChild(el);
+    });
+  }
+
+  const splashBtn = document.getElementById('splashBtn');
+  if (splashBtn) splashBtn.addEventListener('click', startEverything);
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === ' ' || e.key === 'Enter') && splashWrap && !splashWrap.classList.contains('hide')) startEverything();
+  }, { once: true });
 }
 
 /* ══════════════════════════
@@ -519,8 +575,13 @@ function checkAnniversaryDay() {
   setTimeout(() => launchCelebrationBurst(), 800);
   setTimeout(() => launchCelebrationBurst(), 2400);
 
-  /* 11. Rideau de cinéma — remplace le splash */
-  initCinemaScreen();
+  /* 11. Adapter le rideau pour le 21 juin */
+  const cDate = document.getElementById('cinemaDate');
+  const cTag  = document.getElementById('cinemaTagline');
+  const cBtn  = document.getElementById('splashBtn');
+  if (cDate) cDate.textContent = '21 juin 2023 — 21 juin 2026';
+  if (cTag)  cTag.innerHTML   = 'Une histoire vraie. Imparfaite. Inoubliable.<br><em>Et aujourd\'hui — trois ans. ♡</em>';
+  if (cBtn)  cBtn.textContent = '✦ Ouvrir le rideau — 3 Ans ✦';
 }
 
 /* ── RIDEAU DE CINÉMA — le 21 juin uniquement ── */

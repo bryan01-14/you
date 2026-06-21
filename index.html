@@ -16,69 +16,76 @@
 <div class="cursor-trail" id="cursorTrail"></div>
 
 <!-- ═══════════════════════════════════════════
-     RIDEAU CINÉMA — visible UNIQUEMENT le 21 juin
-     Injecté et activé par JS via checkAnniversaryDay()
+     SPLASH UNIQUE — rideau fermé couvrant tout l'écran
+     Mode normal (autres jours) : splash rose habituel
+     Mode 21 juin : rideau cinéma qui s'ouvre
+     Géré entièrement par JS au chargement
      ═══════════════════════════════════════════ -->
-<div id="cinemaScreen" style="display:none">
+<div id="splashScreen">
 
-  <!-- Grain pellicule -->
-  <div class="cinema-grain"></div>
+  <!-- ── MODE CINÉMA (21 juin) ── -->
+  <div id="cinemaSplash" style="display:none; position:absolute; inset:0;">
 
-  <!-- Rail + anneaux -->
-  <div class="cinema-rail">
-    <div class="rail-rings" id="railRings"></div>
-  </div>
+    <!-- Grain pellicule -->
+    <div class="cinema-grain"></div>
 
-  <!-- Spots lumineux -->
-  <div class="cinema-spotlight sp1"></div>
-  <div class="cinema-spotlight sp2"></div>
-
-  <!-- Rideau gauche -->
-  <div class="cinema-curtain-left">
-    <div class="curtain-body"></div>
-    <div class="curtain-fringe"></div>
-  </div>
-
-  <!-- Rideau droit -->
-  <div class="cinema-curtain-right">
-    <div class="curtain-body"></div>
-    <div class="curtain-fringe"></div>
-  </div>
-
-  <!-- Contenu centre -->
-  <div class="cinema-center">
-    <div class="cinema-logo" id="cinemaLogo">Nous Deux</div>
-    <div class="cinema-date" id="cinemaDate">21 juin 2023 — 21 juin 2026</div>
-    <p class="cinema-tagline" id="cinemaTagline">
-      Une histoire vraie. Imparfaite. Inoubliable.<br>
-      <em>Et aujourd'hui — trois ans.</em>
-    </p>
-    <div class="cinema-stars" id="cinemaStars">★ ★ ★ ★ ★</div>
-    <button class="cinema-btn" id="cinemaBtn">✦ Ouvrir le rideau ✦</button>
-    <p class="cinema-hint" id="cinemaHint">Clique pour commencer ♡</p>
-  </div>
-
-</div>
-
-<div id="splashScreen" class="splash">
-  <div class="splash-bg"></div>
-  <div class="splash-petals" id="splashPetals"></div>
-  <div class="splash-inner">
-    <div class="splash-hearts">
-      <span class="sh sh1">♡</span>
-      <span class="sh sh2">♥</span>
-      <span class="sh sh3">♡</span>
+    <!-- Rail + anneaux -->
+    <div class="cinema-rail">
+      <div class="rail-rings" id="railRings"></div>
     </div>
-    <h1 class="splash-title">Nous Deux</h1>
-    <p class="splash-date">21 Juin 2023</p>
-    <p class="splash-sub">Une histoire vraie. Imparfaite. Inoubliable.</p>
-    <button class="splash-btn" id="splashBtn">
-      <span class="splash-btn-icon">▶</span>
-      <span class="splash-btn-text">Entrer dans notre histoire</span>
-    </button>
-    <p class="splash-hint">Appuie pour commencer ♡</p>
+
+    <!-- Spots lumineux -->
+    <div class="cinema-spotlight sp1"></div>
+    <div class="cinema-spotlight sp2"></div>
+
+    <!-- RIDEAU GAUCHE — couvre la moitié gauche de l'écran -->
+    <div class="cinema-curtain-left">
+      <div class="curtain-body"></div>
+      <div class="curtain-fringe"></div>
+    </div>
+
+    <!-- RIDEAU DROIT — couvre la moitié droite de l'écran -->
+    <div class="cinema-curtain-right">
+      <div class="curtain-body"></div>
+      <div class="curtain-fringe"></div>
+    </div>
+
+    <!-- Texte au-dessus des rideaux, centré -->
+    <div class="cinema-center">
+      <div class="cinema-logo" id="cinemaLogo">Nous Deux</div>
+      <div class="cinema-sep"></div>
+      <div class="cinema-anniv-badge" id="cinemaAnnivBadge">✦ 3ème Anniversaire ✦</div>
+      <div class="cinema-date" id="cinemaDate">21 Juin 2023 — 21 Juin 2026</div>
+      <p class="cinema-tagline" id="cinemaTagline">Une histoire vraie. Imparfaite. Inoubliable.<br><em>Et aujourd'hui — trois ans.</em></p>
+      <div class="cinema-stars" id="cinemaStars">★ ★ ★ ★ ★</div>
+      <button class="cinema-btn" id="cinemaBtn">✦ Ouvrir le rideau ✦</button>
+      <p class="cinema-hint">Espace ou clic pour commencer</p>
+    </div>
   </div>
+
+  <!-- ── MODE NORMAL (autres jours) ── -->
+  <div id="normalSplash" style="display:none; position:absolute; inset:0;">
+    <div class="splash-bg"></div>
+    <div class="splash-petals" id="splashPetals"></div>
+    <div class="splash-inner">
+      <div class="splash-hearts">
+        <span class="sh sh1">♡</span>
+        <span class="sh sh2">♥</span>
+        <span class="sh sh3">♡</span>
+      </div>
+      <h1 class="splash-title">Nous Deux</h1>
+      <p class="splash-date">21 Juin 2023</p>
+      <p class="splash-sub">Une histoire vraie. Imparfaite. Inoubliable.</p>
+      <button class="splash-btn" id="splashBtn">
+        <span class="splash-btn-icon">▶</span>
+        <span>Entrer dans notre histoire</span>
+      </button>
+      <p class="splash-hint">Appuie pour commencer ♡</p>
+    </div>
+  </div>
+
 </div>
+
 
 <!-- AUDIO -->
 <audio id="bgMusic" loop preload="auto">
